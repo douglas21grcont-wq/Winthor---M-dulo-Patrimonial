@@ -1057,7 +1057,7 @@
           <div class="fields-grid">
             <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Data da nota fiscal </div><div class="field-desc">Utilizar a data que está dando a entrada do bem, <strong>não recomendado utilizar a data de emissão</strong>.</div></div>
             <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Número da nota fiscal </div><div class="field-desc">Incluir número de acordo com a nota. Em caso de ausência de número, colocar "0".</div></div>
-            <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span></div>Bem <div class="field-desc">Bem cadastrado na rotina 3401 conforme item da nota fiscal.</div></div>
+            <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Bem </div><div class="field-desc">Bem cadastrado na rotina 3401 conforme item da nota fiscal.</div></div>
             <div class="field-item"><div class="field-label"><span class="field-opt">opcional</span> Número do patrimonio </div><div class="field-desc">Pode ser utilizado para o controle interno.</div></div>
             <div class="field-item"><div class="field-label"><span class="field-opt">opcional</span> Valor CIAP </div><div class="field-desc">Atualmente empresa não possui, contatar o fiscal e analisar possibilidade.</div></div>
             <div class="field-item"><div class="field-label"><span class="field-opt">opcional</span> Valor DIFAL </div><div class="field-desc">Incluir de acordo com a nota fiscal (caso tenha).</div></div>
@@ -1101,7 +1101,7 @@
             <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Dt. Entrada do bem </div><div class="field-desc">Utilizar a data que está dando a entrada do bem, <strong>não recomendado utilizar a data de emissão</strong>.</div></div>
             <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Responsável e Localização </div><div class="field-desc">Vincular conforme identificação interna. <strong>Caso não tenha, utilizar o geral</strong>.</div></div>
             <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Dt. Últi. Depreciação </div><div class="field-desc">Utilizar a mesma data de entrada.</div></div>
-            <div class="field-item"><div class="field-label"><span class="field-opt">opcional</span></div> Dt. Término CIAP <div class="field-desc">Deixar em branco.</div></div>
+            <div class="field-item"><div class="field-label"><span class="field-opt">opcional</span> Dt. Término CIAP </div><div class="field-desc">Deixar em branco.</div></div>
             <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Número do patrimonio </div><div class="field-desc">Utilizar código de controle  interno <strong>Caso não tenha, criar sequencia</strong>.</div></div>
             <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Valor do bem </div><div class="field-desc">Incluir valor da nota, embutindo os impostos e outras despesas.</div></div>
             <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Tx Deprec. atual </div><div class="field-desc">Informar taxa do grupo na rotina 3406 vinculado ao bem na rotina 3401 <strong>conforme demonstrado no vídeo</strong>.</div></div>
@@ -1133,19 +1133,36 @@
             </video>
             <div class="video-footer">Lançamento de nota — Rotina 3402</div>
           </div>
-          <div class="sub-title">Campos do lançamento</div> 
+          <div class="sub-title">Campos do lançamento 1ª Tela</div> 
           <div class="fields-grid">
+            <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Tipo de Operação </div><div class="field-desc">Informar filial de lançamento de acordo com a nota.</div></div>
+            <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Conta </div><div class="field-desc">Bem cadastrado na rotina 3401 conforme item da nota fiscal.</div></div>
             <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Filial </div><div class="field-desc">Informar filial de lançamento de acordo com a nota.</div></div>
-            <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Cód. Bem </div><div class="field-desc">Bem cadastrado na rotina 3401 conforme item da nota fiscal.</div></div>
-            <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Dt. Entrada do bem </div><div class="field-desc">Utilizar a data que está dando a entrada do bem, <strong>não recomendado utilizar a data de emissão</strong>.</div></div>
-            <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Responsável e Localização </div><div class="field-desc">Vincular conforme identificação interna. <strong>Caso não tenha, utilizar o geral</strong>.</div></div>
-            <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Dt. Últi. Depreciação </div><div class="field-desc">Utilizar a mesma data de entrada.</div></div>
-            <div class="field-item"><div class="field-label"><span class="field-opt">opcional</span></div> Dt. Término CIAP <div class="field-desc">Deixar em branco.</div></div>
-            <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Número do patrimonio </div><div class="field-desc">Utilizar código de controle  interno <strong>Caso não tenha, criar sequencia</strong>.</div></div>
-            <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Valor do bem </div><div class="field-desc">Incluir valor da nota, embutindo os impostos e outras despesas.</div></div>
-            <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Tx Deprec. atual </div><div class="field-desc">Informar taxa do grupo na rotina 3406 vinculado ao bem na rotina 3401 <strong>conforme demonstrado no vídeo</strong>.</div></div>
-            <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Contabiliza bem </div><div class="field-desc">Manter a flag marcada paa gerar o bem nas demais rotinas da forma correta.</div></div> 
+            <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Espécie | Série | Modelo </div><div class="field-desc">Utilizar a data que está dando a entrada do bem, <strong>não recomendado utilizar a data de emissão</strong>.</div></div>
+            <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Emissão própria </div><div class="field-desc">Vincular conforme identificação interna. <strong>Caso não tenha, utilizar o geral</strong>.</div></div>
+            <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Número nota </div><div class="field-desc">Utilizar a mesma data de entrada.</div></div>
+            <div class="field-item"><div class="field-label"><span class="field-opt">opcional</span> Data emissão </div><div class="field-desc">Deixar em branco.</div></div>
+            <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Data entrada </div><div class="field-desc">Utilizar código de controle  interno <strong>Caso não tenha, criar sequencia</strong>.</div></div>
+            <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Fornecedor </div><div class="field-desc">Incluir valor da nota, embutindo os impostos e outras despesas.</div></div>
+            <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Chave NF-e </div><div class="field-desc">Informar taxa do grupo na rotina 3406 vinculado ao bem na rotina 3401 <strong>conforme demonstrado no vídeo</strong>.</div></div>
+            <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Valor total da NF </div><div class="field-desc">Manter a flag marcada paa gerar o bem nas demais rotinas da forma correta.</div></div> 
           </div>
+
+          <div class="sub-title">Campos do lançamento 2ª Tela</div> 
+          <div class="fields-grid">
+            <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Tipo de Operação </div><div class="field-desc">Informar filial de lançamento de acordo com a nota.</div></div>
+            <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Conta </div><div class="field-desc">Bem cadastrado na rotina 3401 conforme item da nota fiscal.</div></div>
+            <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Filial </div><div class="field-desc">Informar filial de lançamento de acordo com a nota.</div></div>
+            <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Espécie | Série | Modelo </div><div class="field-desc">Utilizar a data que está dando a entrada do bem, <strong>não recomendado utilizar a data de emissão</strong>.</div></div>
+            <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Emissão própria </div><div class="field-desc">Vincular conforme identificação interna. <strong>Caso não tenha, utilizar o geral</strong>.</div></div>
+            <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Número nota </div><div class="field-desc">Utilizar a mesma data de entrada.</div></div>
+            <div class="field-item"><div class="field-label"><span class="field-opt">opcional</span> Data emissão </div><div class="field-desc">Deixar em branco.</div></div>
+            <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Data entrada </div><div class="field-desc">Utilizar código de controle  interno <strong>Caso não tenha, criar sequencia</strong>.</div></div>
+            <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Fornecedor </div><div class="field-desc">Incluir valor da nota, embutindo os impostos e outras despesas.</div></div>
+            <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Chave NF-e </div><div class="field-desc">Informar taxa do grupo na rotina 3406 vinculado ao bem na rotina 3401 <strong>conforme demonstrado no vídeo</strong>.</div></div>
+            <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Valor total da NF </div><div class="field-desc">Manter a flag marcada paa gerar o bem nas demais rotinas da forma correta.</div></div> 
+          </div>
+          
           <div class="box box-atencao">
             <div class="box-title">⚠️ Atenção!!</div>
             Incluir informação
