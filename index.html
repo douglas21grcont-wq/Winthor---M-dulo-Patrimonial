@@ -563,6 +563,10 @@
           <button class="sidebar-item" onclick="showSection('p5',this)">
             <span class="item-num">5</span> Cadastro de Bens
           </button>
+           <div class="sidebar-items open">
+          <button class="sidebar-item" onclick="showSection('p6',this)">
+            <span class="item-num">6</span> Importação de dados
+          </button>
         </div>
       </div>
 
@@ -574,7 +578,7 @@
         </button>
         <div class="sidebar-items open">
           <button class="sidebar-item" onclick="showSection('p5',this)">
-            <span class="item-num">5</span> Cadastro de Bens
+            <span class="item-num">5</span> substituir pro prox passo
           </button>
         </div>
       </div>
@@ -854,6 +858,51 @@
             <div class="box-title">✅ Quando marcado como Sim</div>
             O parâmetro considera o Cálculo de ST na entrada e na saída quando o produto
             for sujeito à substituição tributária.
+          </div>
+        </div>
+      </div>
+      <!-- 6º PASSO -->
+      <div id="sec-p6" class="section">
+        <div class="card">
+          <div class="card-title"><span class="icon">🏷️</span>6º Passo — Importação de dados</div>
+          <div class="rotina-tag">Importação de dados - Processo em lote</div>
+          <p>
+            Rotina onde é feito a importação de dados por TXT.
+            Essa etapa serve como uma alternativa para substituir todas mencionadas anteriormente. 
+            É possível realizar importações em lote conforme layout padrão. <strong>Ótimo para acelerar o processo de implantação!</strong>
+          </p>
+          <div class="video-wrap">
+            <video autoplay loop muted playsinline style="width:100%;display:block;max-height:500px;object-fit:contain;background:#000;">
+              <source src="rotina_3417.mp4" type="video/mp4">
+            </video>
+            <div class="video-footer">Extraindo layout de importação</div>
+          </div>
+          <div class="sub-title">Campos do cadastro</div>
+          <div class="fields-grid">
+            <div class="field-item"><div class="field-label">Filial <span class="field-opt">opcional</span></div><div class="field-desc">Não interfere no cadastro. Pode ser feita separação, porém não impacta nas demais etapas.</div></div>
+            <div class="field-item"><div class="field-label">Descrição <span class="field-req">obrigatório</span></div><div class="field-desc">Adicionar o máximo de informações úteis possível para facilitar a identificação do bem.</div></div>
+            <div class="field-item"><div class="field-label">Tipo do Bem <span class="field-req">obrigatório</span></div><div class="field-desc">Classificação do bem conforme natureza do ativo.</div></div>
+            <div class="field-item"><div class="field-label">Grupo do Bem <span class="field-req">obrigatório</span></div><div class="field-desc">Atentar ao vínculo cadastrado na rotina 3406. Manter coerência com a finalidade e característica do bem.</div></div>
+            <div class="field-item"><div class="field-label">Embalagem <span class="field-req">obrigatório</span></div><div class="field-desc">Normalmente utilizada <strong>UN</strong> (unidade).</div></div>
+            <div class="field-item"><div class="field-label">NCM <span class="field-req">obrigatório</span></div><div class="field-desc">Incluir de acordo com a nota fiscal (presente no produto da nota).</div></div>
+            <div class="field-item"><div class="field-label">Indicador de Escala Relevante <span class="field-req">obrigatório</span></div><div class="field-desc">Preencher conforme legislação aplicável ao bem.</div></div>
+            <div class="field-item"><div class="field-label">Origem do CST <span class="field-req">obrigatório</span></div><div class="field-desc">Adicionar a informação conforme origem da mercadoria.</div></div>
+            <div class="field-item"><div class="field-label">Tributação IPI <span class="field-req">obrigatório</span></div><div class="field-desc">Em caso de ausência de informação ou desconhecimento, incluir <strong>"outras entradas"</strong>.</div></div>
+            <div class="field-item"><div class="field-label">Fornecedor <span class="field-opt">opcional</span></div><div class="field-desc">Não há necessidade de vínculo. O bem pode ser usado futuramente em outras entradas. Incluir conforme rotina 202 se necessário.</div></div>
+          </div>
+          <div class="box box-atencao">
+            <div class="box-title">⚠️ Atenção aos detalhes, pois eles podem travar sua importação</div>
+            Formato de número deve ser específico. as datas precisam estar desta forma '01/01/2026 para permite exportação no formato correto. 
+            Campos números indicados no layout não aceitam letras, fazendo com que sua importação dê erro, ou importe apenas a primeira linha.
+          </div>
+          <div class="box box-info">
+            <div class="box-title">ℹ️ Quando der erro na importação, o que fazer ?</div>
+            Abra o resumo de erros e leia linha a linha as informações repassadas pelo Winthor, em muita vezes o erro da primeira linha será o 
+            erro de todas as outras, verifique e fique tranquilo! O erro te oferece uma segunda chance para importar o arquivo.
+          </div>
+          <div class="box box-dica">
+            <div class="box-title">✅ E quando a importação der certo?</div>
+            Aparecerá uma tela informando <strong>Arquivo importado com sucesso!</strong>, depois disso é só comemorar!!
           </div>
         </div>
       </div>
