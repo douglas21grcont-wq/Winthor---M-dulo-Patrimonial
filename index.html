@@ -3,874 +3,933 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>WINT — Implantação do Módulo Imobilizado</title>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <title>DG Consultoria — Portal de Implantações</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --green:       #1b5e20;
-      --green-mid:   #2e7d32;
-      --green-light: #43a047;
-      --green-bg:    #f1f8f1;
-      --green-pale:  #e8f5e9;
-      --gray-bg:     #f5f6f5;
-      --gray-border: #dde8dd;
-      --text:        #1a1a1a;
-      --text-muted:  #555;
+      --g1: #0a2e0d;
+      --g2: #1b5e20;
+      --g3: #2e7d32;
+      --g4: #43a047;
+      --g5: #66bb6a;
+      --cyan: #00e5ff;
+      --teal: #00bfa5;
+      --bg: #f4f6f4;
+      --border: #dde8dd;
+      --green-pale: #e8f5e9;
+      --green-bg: #f1f8f1;
+      --text: #1a1a1a;
+      --muted: #555;
     }
 
     body {
       font-family: 'Nunito Sans', Arial, sans-serif;
       font-size: 15px;
       color: var(--text);
-      background: var(--gray-bg);
+      background: var(--bg);
       line-height: 1.75;
     }
 
-    /* ── TOPO INSTITUCIONAL ── */
+    /* ════════════════════════════════════
+       BARRA INSTITUCIONAL
+    ════════════════════════════════════ */
     .inst-bar {
-      background: var(--green);
-      padding: 10px 48px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      background: var(--g1);
+      padding: 12px 40px;
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 100;
+      border-bottom: 1px solid rgba(0,229,255,.1);
     }
-    .inst-bar-logo {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
+    .inst-logo { display: flex; align-items: center; gap: 12px; cursor: pointer; }
     .logo-mark {
-      width: 36px; height: 36px;
-      background: #fff;
-      border-radius: 4px;
+      width: 36px; height: 36px; border-radius: 6px;
+      background: linear-gradient(135deg, var(--g3), var(--g4));
       display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 0 10px rgba(0,229,255,.2);
     }
-    .logo-mark svg { width: 22px; height: 22px; }
-    .logo-text { color: #fff; font-size: 15px; font-weight: 800; letter-spacing: -.2px; }
-    .logo-sub  { color: rgba(255,255,255,.65); font-size: 11px; font-weight: 400; margin-top: -2px; }
-    .inst-bar-right { font-size: 12px; color: rgba(255,255,255,.6); }
+    .logo-mark svg { width: 20px; height: 20px; }
+    .logo-name { color: #fff; font-size: 15px; font-weight: 900; letter-spacing: -.2px; }
+    .logo-tagline { color: rgba(255,255,255,.45); font-size: 11px; margin-top: -2px; }
+    .inst-right { font-size: 12px; color: rgba(255,255,255,.4); }
 
-    /* ── HERO / CABEÇALHO DO DOC ── */
-    .hero {
-      background: var(--green-mid);
-      padding: 36px 48px 0;
+    /* ════════════════════════════════════
+       TELA HOME — PORTAL
+    ════════════════════════════════════ */
+    #screen-home { display: block; }
+    #screen-module { display: none; }
+
+    /* HERO HOME */
+    .home-hero {
+      background: var(--g1);
+      padding: 60px 40px 50px;
+      position: relative; overflow: hidden;
+      text-align: center;
+    }
+    .home-hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: radial-gradient(circle, rgba(0,229,255,.15) 1px, transparent 1px);
+      background-size: 30px 30px;
+      animation: gridMove 20s linear infinite;
+    }
+    @keyframes gridMove { 0%{background-position:0 0} 100%{background-position:30px 30px} }
+
+    .home-glow1 {
+      position: absolute; top: -80px; left: 50%; transform: translateX(-50%);
+      width: 500px; height: 300px; border-radius: 50%;
+      background: radial-gradient(ellipse, rgba(0,229,255,.1) 0%, transparent 70%);
+      animation: pulse 5s ease-in-out infinite;
+    }
+    .home-glow2 {
+      position: absolute; bottom: -60px; right: 80px;
+      width: 240px; height: 240px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,191,165,.08) 0%, transparent 70%);
+      animation: pulse 7s ease-in-out infinite reverse;
+    }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.6;transform:scale(1.1)} }
+
+    .home-hero-content { position: relative; z-index: 2; max-width: 680px; margin: 0 auto; }
+
+    .home-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(0,229,255,.1); border: 1px solid rgba(0,229,255,.25);
+      color: var(--cyan); font-size: 11px; font-weight: 800;
+      padding: 5px 16px; border-radius: 20px;
+      text-transform: uppercase; letter-spacing: 1px;
+      margin-bottom: 20px;
+      animation: fadeUp .6s ease both;
+    }
+    .home-badge .dot { width:6px; height:6px; border-radius:50%; background:var(--cyan); animation: blink 1.5s infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.2} }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:none} }
+
+    .home-hero h1 {
+      font-size: 34px; font-weight: 900; color: #fff; line-height: 1.2;
+      margin-bottom: 14px;
+      animation: fadeUp .6s ease .1s both;
+    }
+    .home-hero h1 span { color: var(--cyan); }
+
+    .home-hero p {
+      font-size: 15px; color: rgba(255,255,255,.65); line-height: 1.75;
+      margin-bottom: 0;
+      animation: fadeUp .6s ease .2s both;
+    }
+
+    /* MÓDULOS GRID */
+    .modules-wrap {
+      max-width: 1100px; margin: 40px auto; padding: 0 32px 80px;
+    }
+
+    .modules-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 24px;
+    }
+    .modules-header h2 { font-size: 16px; font-weight: 800; color: var(--g2); }
+    .modules-header span { font-size: 13px; color: var(--muted); }
+
+    .modules-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 18px;
+    }
+
+    .module-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      cursor: pointer;
+      transition: all .2s;
       position: relative;
       overflow: hidden;
     }
-    .hero::after {
+    .module-card::before {
       content: '';
-      position: absolute;
-      right: -60px; top: -60px;
-      width: 280px; height: 280px;
-      border-radius: 50%;
-      background: rgba(255,255,255,.04);
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--g3), var(--g4), var(--cyan));
+      transform: scaleX(0); transform-origin: left;
+      transition: transform .3s ease;
     }
-    .hero-badge {
-      display: inline-flex; align-items: center; gap: 6px;
-      background: rgba(255,255,255,.15);
-      color: #fff; font-size: 11px; font-weight: 700;
-      padding: 4px 12px; border-radius: 20px;
+    .module-card:hover { box-shadow: 0 8px 28px rgba(46,125,50,.12); transform: translateY(-3px); border-color: var(--g4); }
+    .module-card:hover::before { transform: scaleX(1); }
+
+    .module-card.soon {
+      opacity: .6; cursor: not-allowed;
+    }
+    .module-card.soon:hover { transform: none; box-shadow: none; border-color: var(--border); }
+    .module-card.soon::before { display: none; }
+
+    .module-icon {
+      width: 48px; height: 48px; border-radius: 10px;
+      background: linear-gradient(135deg, var(--green-pale), #c8e6c9);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; margin-bottom: 14px;
+    }
+    .module-num {
+      font-size: 11px; font-weight: 800; color: var(--g3);
       text-transform: uppercase; letter-spacing: .8px;
+      margin-bottom: 4px;
+    }
+    .module-name {
+      font-size: 16px; font-weight: 800; color: var(--text);
+      margin-bottom: 8px; line-height: 1.3;
+    }
+    .module-desc {
+      font-size: 13px; color: var(--muted); line-height: 1.6;
+      margin-bottom: 16px;
+    }
+    .module-footer {
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .module-pops {
+      font-size: 12px; color: var(--muted);
+      display: flex; align-items: center; gap: 5px;
+    }
+    .module-pops strong { color: var(--g2); font-weight: 800; }
+    .module-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--g2); color: #fff;
+      font-size: 12px; font-weight: 700;
+      padding: 6px 14px; border-radius: 6px;
+      border: none; cursor: pointer; font-family: inherit;
+      transition: background .15s;
+    }
+    .module-btn:hover { background: var(--g3); }
+    .module-btn.disabled {
+      background: #ccc; cursor: not-allowed;
+    }
+
+    .soon-badge {
+      display: inline-block;
+      background: #f0f0f0; color: #888;
+      font-size: 11px; font-weight: 700;
+      padding: 4px 10px; border-radius: 20px;
+      text-transform: uppercase; letter-spacing: .5px;
+    }
+
+    /* ════════════════════════════════════
+       TELA MÓDULO — COM SIDEBAR
+    ════════════════════════════════════ */
+    #screen-module { flex-direction: column; }
+
+    /* HERO MÓDULO */
+    .mod-hero {
+      background: var(--g1);
+      padding: 32px 40px 0;
+      position: relative; overflow: hidden;
+    }
+    .mod-hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: radial-gradient(circle, rgba(0,229,255,.12) 1px, transparent 1px);
+      background-size: 28px 28px;
+      animation: gridMove 20s linear infinite;
+    }
+    .mod-hero-glow {
+      position: absolute; top: -60px; right: 60px;
+      width: 260px; height: 260px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,229,255,.1) 0%, transparent 70%);
+      animation: pulse 5s ease-in-out infinite;
+    }
+    .mod-hero-content { position: relative; z-index: 2; }
+
+    .mod-breadcrumb {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 12px; color: rgba(255,255,255,.5);
       margin-bottom: 12px;
     }
-    .hero-badge::before {
-      content: '';
-      width: 6px; height: 6px; border-radius: 50%;
-      background: #a5d6a7;
+    .mod-breadcrumb button {
+      background: none; border: none; color: rgba(255,255,255,.7);
+      font-size: 12px; cursor: pointer; font-family: inherit;
+      padding: 0; transition: color .15s;
     }
-    .hero h1 {
-      font-size: 26px; font-weight: 800;
-      color: #fff; line-height: 1.25;
-      margin-bottom: 8px; max-width: 640px;
+    .mod-breadcrumb button:hover { color: var(--cyan); }
+    .mod-breadcrumb .sep { color: rgba(255,255,255,.3); }
+
+    .mod-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(0,229,255,.1); border: 1px solid rgba(0,229,255,.2);
+      color: var(--cyan); font-size: 11px; font-weight: 800;
+      padding: 4px 14px; border-radius: 20px;
+      text-transform: uppercase; letter-spacing: .8px;
+      margin-bottom: 10px;
     }
-    .hero-desc {
-      font-size: 14px; color: rgba(255,255,255,.78);
-      max-width: 580px; margin-bottom: 24px; line-height: 1.65;
+    .mod-badge .dot { width:5px; height:5px; border-radius:50%; background:var(--cyan); animation: blink 1.5s infinite; }
+
+    .mod-hero h1 {
+      font-size: 24px; font-weight: 900; color: #fff; line-height: 1.25;
+      margin-bottom: 8px;
     }
-    .hero-meta {
-      display: flex; gap: 24px; flex-wrap: wrap;
-      font-size: 12px; color: rgba(255,255,255,.65);
+    .mod-hero h1 span { color: var(--cyan); }
+    .mod-hero-desc { font-size: 14px; color: rgba(255,255,255,.65); margin-bottom: 20px; line-height: 1.65; }
+    .mod-hero-meta {
+      display: flex; gap: 16px; flex-wrap: wrap;
       padding-bottom: 20px;
     }
-    .hero-meta span { display: flex; align-items: center; gap: 5px; }
+    .mod-chip {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12);
+      color: rgba(255,255,255,.7); font-size: 12px; font-weight: 600;
+      padding: 4px 12px; border-radius: 6px;
+    }
 
-    /* ── TABS ── */
-    .tabs-wrap {
-      background: var(--green-mid);
-      padding: 0 48px;
-      border-bottom: 3px solid var(--green);
+    /* LAYOUT MÓDULO: sidebar + conteúdo */
+    .mod-body {
+      display: flex;
+      max-width: 1300px;
+      margin: 0 auto;
+      width: 100%;
     }
-    .tabs {
-      display: flex; gap: 0;
-      overflow-x: auto;
-    }
-    .tab {
-      padding: 12px 22px;
-      font-size: 13px; font-weight: 700;
-      color: rgba(255,255,255,.65);
-      background: transparent; border: none;
-      cursor: pointer;
-      border-bottom: 3px solid transparent;
-      margin-bottom: -3px;
-      white-space: nowrap;
-      transition: all .15s;
-      font-family: inherit;
-      display: flex; align-items: center; gap: 7px;
-    }
-    .tab .tab-num {
-      width: 20px; height: 20px; border-radius: 50%;
-      background: rgba(255,255,255,.15);
-      font-size: 11px; font-weight: 800;
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-    }
-    .tab:hover { color: #fff; background: rgba(255,255,255,.07); }
-    .tab.active {
-      color: #fff;
-      border-bottom-color: #fff;
-      background: rgba(255,255,255,.1);
-    }
-    .tab.active .tab-num {
+
+    /* SIDEBAR */
+    .sidebar {
+      width: 260px;
+      min-width: 260px;
       background: #fff;
-      color: var(--green-mid);
+      border-right: 1px solid var(--border);
+      padding: 20px 0;
+      min-height: calc(100vh - 200px);
+      position: sticky;
+      top: 61px;
+      height: calc(100vh - 61px);
+      overflow-y: auto;
     }
 
-    /* ── LAYOUT PRINCIPAL ── */
-    .main { max-width: 1200px; margin: 32px auto; padding: 0 24px 80px; }
-    .section { display: none; }
+    .sidebar-section-title {
+      font-size: 10px; font-weight: 900;
+      text-transform: uppercase; letter-spacing: 1px;
+      color: #aaa; padding: 0 20px 8px;
+    }
+
+    .sidebar-group { margin-bottom: 4px; }
+
+    .sidebar-group-btn {
+      width: 100%; background: none; border: none;
+      padding: 10px 20px;
+      display: flex; align-items: center; justify-content: space-between;
+      cursor: pointer; font-family: inherit;
+      font-size: 13px; font-weight: 800; color: var(--g2);
+      transition: background .15s;
+      text-align: left;
+    }
+    .sidebar-group-btn:hover { background: var(--green-pale); }
+    .sidebar-group-btn.open { background: var(--green-pale); }
+
+    .sidebar-group-btn .arrow {
+      font-size: 10px; color: var(--g4);
+      transition: transform .2s;
+    }
+    .sidebar-group-btn.open .arrow { transform: rotate(90deg); }
+
+    .sidebar-items { display: none; }
+    .sidebar-items.open { display: block; }
+
+    .sidebar-item {
+      display: flex; align-items: center; gap: 8px;
+      padding: 8px 20px 8px 32px;
+      font-size: 13px; color: var(--muted);
+      cursor: pointer; border-left: 3px solid transparent;
+      transition: all .15s; background: none; border-right: none;
+      border-top: none; border-bottom: none;
+      width: 100%; text-align: left; font-family: inherit;
+    }
+    .sidebar-item:hover { background: #f8faf8; color: var(--g2); border-left-color: var(--g4); }
+    .sidebar-item.active {
+      background: var(--green-pale); color: var(--g2);
+      font-weight: 700; border-left-color: var(--g2);
+    }
+    .sidebar-item .item-num {
+      width: 20px; height: 20px; border-radius: 50%;
+      background: var(--border); color: var(--muted);
+      font-size: 10px; font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; transition: all .15s;
+    }
+    .sidebar-item.active .item-num {
+      background: var(--g2); color: #fff;
+    }
+    .sidebar-divider { height: 1px; background: var(--border); margin: 12px 0; }
+
+    /* CONTEÚDO PRINCIPAL */
+    .mod-content {
+      flex: 1; min-width: 0;
+      padding: 28px 32px 80px;
+    }
+
+    .section { display: none; animation: fadeIn .3s ease; }
     .section.active { display: block; }
+    @keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:none} }
 
     /* ── CARDS ── */
     .card {
-      background: #fff;
-      border: 1px solid var(--gray-border);
-      border-radius: 8px;
-      padding: 28px 32px;
-      margin-bottom: 20px;
+      background: #fff; border: 1px solid var(--border);
+      border-radius: 10px; padding: 28px 32px; margin-bottom: 20px;
+      transition: box-shadow .2s;
     }
-    .card + .card { margin-top: 0; }
+    .card:hover { box-shadow: 0 4px 20px rgba(46,125,50,.07); }
 
-    /* ── TÍTULOS ── */
     .card-title {
-      font-size: 17px; font-weight: 800;
-      color: var(--green);
-      margin-bottom: 16px;
-      padding-bottom: 12px;
+      font-size: 17px; font-weight: 800; color: var(--g2);
+      margin-bottom: 16px; padding-bottom: 12px;
       border-bottom: 2px solid var(--green-pale);
       display: flex; align-items: center; gap: 10px;
     }
     .card-title .icon {
-      width: 32px; height: 32px; border-radius: 8px;
-      background: var(--green-pale);
+      width: 34px; height: 34px; border-radius: 8px;
+      background: linear-gradient(135deg, var(--green-pale), #c8e6c9);
       display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0; font-size: 15px;
+      flex-shrink: 0; font-size: 16px;
     }
-    .sub-title {
-      font-size: 14px; font-weight: 700;
-      color: var(--green); margin: 20px 0 10px;
-    }
+    .sub-title { font-size: 14px; font-weight: 800; color: var(--g2); margin: 20px 0 10px; }
 
-    /* ── ROTINA BADGE ── */
     .rotina-tag {
-      display: inline-flex; align-items: center; gap: 6px;
-      background: var(--green); color: #fff;
-      font-size: 12px; font-weight: 700;
-      padding: 4px 12px; border-radius: 4px;
-      margin-bottom: 14px;
+      display: inline-flex; align-items: center;
+      background: linear-gradient(90deg, var(--g2), var(--g3));
+      color: #fff; font-size: 12px; font-weight: 700;
+      padding: 5px 14px; border-radius: 5px; margin-bottom: 14px;
     }
 
-    /* ── TEXTO ── */
     .card p { font-size: 15px; color: #333; margin-bottom: 12px; line-height: 1.75; }
     .card strong { color: #111; font-weight: 700; }
     .card ul { padding-left: 20px; margin-bottom: 12px; }
     .card ul li { font-size: 14px; color: #333; margin-bottom: 6px; line-height: 1.65; }
 
-    /* ── PASSOS ── */
-    .steps { margin: 4px 0 8px; }
-    .step {
-      display: flex; gap: 14px;
-      margin-bottom: 12px; align-items: flex-start;
-    }
+    .step { display: flex; gap: 14px; margin-bottom: 14px; align-items: flex-start; }
     .step-num {
-      min-width: 28px; height: 28px;
-      background: var(--green); color: #fff;
-      border-radius: 50%; font-size: 13px; font-weight: 800;
+      min-width: 30px; height: 30px;
+      background: linear-gradient(135deg, var(--g2), var(--g4));
+      color: #fff; border-radius: 50%; font-size: 13px; font-weight: 900;
       display: flex; align-items: center; justify-content: center;
       margin-top: 2px; flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(46,125,50,.3); transition: transform .2s;
     }
+    .step:hover .step-num { transform: scale(1.1); }
     .step-body { flex: 1; padding-top: 3px; }
     .step-body strong { display: block; font-size: 14px; color: #111; margin-bottom: 2px; }
-    .step-body p { font-size: 14px; color: var(--text-muted); margin: 0; line-height: 1.65; }
+    .step-body p { font-size: 14px; color: var(--muted); margin: 0; line-height: 1.65; }
 
-    /* ── CAMPOS OBRIGATÓRIOS ── */
     .fields-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 10px;
-      margin: 14px 0;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 10px; margin: 14px 0;
     }
     .field-item {
-      background: var(--green-bg);
-      border: 1px solid var(--gray-border);
-      border-radius: 6px;
-      padding: 10px 14px;
+      background: var(--green-bg); border: 1px solid var(--border);
+      border-radius: 7px; padding: 11px 14px;
+      transition: border-color .2s, box-shadow .2s;
     }
-    .field-label {
-      font-size: 11px; font-weight: 700;
-      text-transform: uppercase; letter-spacing: .5px;
-      color: var(--green); margin-bottom: 3px;
-    }
+    .field-item:hover { border-color: var(--g4); box-shadow: 0 2px 10px rgba(46,125,50,.1); }
+    .field-label { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .5px; color: var(--g2); margin-bottom: 4px; }
     .field-desc { font-size: 13px; color: #333; line-height: 1.5; }
-    .field-req {
-      display: inline-block;
-      font-size: 10px; font-weight: 700;
-      background: var(--green); color: #fff;
-      padding: 1px 6px; border-radius: 3px;
-      margin-left: 4px; vertical-align: middle;
-      text-transform: uppercase; letter-spacing: .3px;
-    }
-    .field-opt {
-      display: inline-block;
-      font-size: 10px; font-weight: 700;
-      background: #e0e0e0; color: #555;
-      padding: 1px 6px; border-radius: 3px;
-      margin-left: 4px; vertical-align: middle;
-      text-transform: uppercase; letter-spacing: .3px;
-    }
+    .field-req { display:inline-block; font-size:10px; font-weight:800; background:var(--g2); color:#fff; padding:1px 7px; border-radius:4px; margin-left:4px; text-transform:uppercase; letter-spacing:.3px; }
+    .field-opt { display:inline-block; font-size:10px; font-weight:800; background:#e0e0e0; color:#666; padding:1px 7px; border-radius:4px; margin-left:4px; text-transform:uppercase; letter-spacing:.3px; }
 
-    /* ── ALERT BOXES ── */
-    .box {
-      border-radius: 6px; padding: 14px 18px;
-      font-size: 14px; margin: 16px 0;
-      border-left: 4px solid; line-height: 1.65;
-    }
-    .box-title {
-      font-weight: 800; font-size: 12px;
-      text-transform: uppercase; letter-spacing: .5px;
-      margin-bottom: 5px; display: flex; align-items: center; gap: 6px;
-    }
-    .box-atencao { background: #fff8e1; border-color: #f9a825; color: #4e3b00; }
+    .box { border-radius: 7px; padding: 14px 18px; font-size: 14px; margin: 16px 0; border-left: 4px solid; line-height: 1.65; }
+    .box-title { font-weight: 800; font-size: 12px; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 5px; display: flex; align-items: center; gap: 6px; }
+    .box-atencao { background: #fff8e1; border-color: #f9a825; color: #4a3700; }
     .box-atencao .box-title { color: #7a5500; }
-    .box-dica    { background: var(--green-pale); border-color: var(--green-mid); color: #1b3d1d; }
-    .box-dica .box-title { color: var(--green); }
+    .box-dica    { background: var(--green-pale); border-color: var(--g3); color: #1a3a1c; }
+    .box-dica .box-title { color: var(--g2); }
     .box-info    { background: #e3f2fd; border-color: #1976d2; color: #0d3c61; }
     .box-info .box-title { color: #1565c0; }
-    .box-danger  { background: #fdecea; border-color: #c62828; color: #5f0000; }
-    .box-danger .box-title { color: #b71c1c; }
 
-    /* ── VÍDEO ── */
-    .video-wrap {
-      margin: 18px 0 24px;
-      border-radius: 8px; overflow: hidden;
-      border: 1px solid var(--gray-border);
-      background: #000;
-    }
-    .video-wrap video { display: block; width: 100%; max-height: 460px; }
-    .video-wrap iframe { display: block; width: 100%; height: 420px; border: none; }
-    .video-footer {
-      background: var(--green-bg);
-      border-top: 1px solid var(--gray-border);
-      padding: 8px 16px; font-size: 12px; color: var(--green);
-      display: flex; align-items: center; gap: 8px; font-weight: 600;
-    }
-    .video-footer::before {
-      content: '▶';
-      width: 20px; height: 20px; border-radius: 50%;
-      background: var(--green); color: #fff;
-      font-size: 8px;
-      display: flex; align-items: center; justify-content: center;
-      padding-left: 2px;
-    }
+    .video-wrap { margin:18px 0 24px; border-radius:8px; overflow:hidden; border:1px solid var(--border); background:#000; }
+    .video-wrap video { display:block; width:100%; max-height:500px; object-fit:contain; }
+    .video-footer { background:var(--green-bg); border-top:1px solid var(--border); padding:8px 16px; font-size:12px; color:var(--g2); font-weight:700; display:flex; align-items:center; gap:8px; }
+    .video-footer::before { content:'▶'; width:18px; height:18px; border-radius:50%; background:var(--g2); color:#fff; font-size:7px; display:flex; align-items:center; justify-content:center; padding-left:1px; }
 
     .video-placeholder {
-      background: #141f14;
-      border-radius: 8px; border: 1px solid #1e3a1e;
-      padding: 36px 24px; text-align: center;
-      margin: 18px 0 24px;
+      background:#0d1f0d; border-radius:8px; border:1px solid rgba(0,229,255,.12);
+      padding:36px 24px; text-align:center; margin:18px 0 24px; position:relative; overflow:hidden;
     }
-    .video-placeholder strong { color: #c8e6c9; display: block; margin-bottom: 6px; font-size: 14px; font-weight: 700; }
-    .video-placeholder p { color: #6a9b6d; font-size: 13px; margin: 0; }
-    .video-placeholder code { background: rgba(255,255,255,.07); padding: 2px 7px; border-radius: 3px; font-size: 12px; color: #a5d6a7; }
-    .play-btn {
-      width: 52px; height: 52px; border-radius: 50%;
-      background: var(--green-mid);
-      display: flex; align-items: center; justify-content: center;
-      margin: 0 auto 14px;
-    }
-    .play-btn svg { fill: #fff; width: 18px; height: 18px; margin-left: 3px; }
+    .video-placeholder::before { content:''; position:absolute; inset:0; background-image:radial-gradient(circle, rgba(0,229,255,.05) 1px, transparent 1px); background-size:22px 22px; }
+    .video-placeholder strong { color:#c8e6c9; display:block; margin-bottom:6px; font-size:14px; font-weight:800; position:relative; }
+    .video-placeholder p { color:#5a8a5e; font-size:13px; margin:0; position:relative; }
+    .video-placeholder code { background:rgba(0,229,255,.08); padding:2px 8px; border-radius:3px; font-size:12px; color:#80cbc4; }
+    .play-btn { width:52px; height:52px; border-radius:50%; background:linear-gradient(135deg,var(--g3),var(--g4)); display:flex; align-items:center; justify-content:center; margin:0 auto 14px; position:relative; box-shadow:0 0 18px rgba(0,229,255,.2); animation:pulsePlay 2s ease-in-out infinite; }
+    @keyframes pulsePlay { 0%,100%{box-shadow:0 0 14px rgba(0,229,255,.15)} 50%{box-shadow:0 0 26px rgba(0,229,255,.4)} }
+    .play-btn svg { fill:#fff; width:16px; height:16px; margin-left:3px; }
 
-    /* ── IMAGEM ── */
-    .img-wrap {
-      margin: 14px auto 22px;
-      border: 1px solid var(--border);
-      border-radius: 7px; overflow: hidden;
-      max-width: 750px;
-      display:block;
-    }
-    .img-wrap img { display: block; max-width: 100%; height: auto; }
-    .img-caption {
-      background: var(--green-bg); border-top: 1px solid var(--gray-border);
-      padding: 7px 14px; font-size: 12px; color: var(--green); font-weight: 600;
-    }
-    .img-placeholder {
-      background: #f7faf7; border: 2px dashed #b2d8b2;
-      border-radius: 6px; padding: 28px; text-align: center;
-      color: #888; font-size: 13px; margin: 14px 0 22px;
-    }
-    .img-placeholder svg { display: block; margin: 0 auto 8px; opacity: .35; }
-    .img-placeholder code { font-size: 12px; background: #eee; padding: 1px 7px; border-radius: 3px; }
+    .img-wrap { margin:14px auto 22px; border:1px solid var(--border); border-radius:7px; overflow:hidden; max-width:750px; display:block; }
+    .img-wrap img { display:block; max-width:100%; height:auto; }
+    .img-caption { background:var(--green-bg); border-top:1px solid var(--border); padding:7px 14px; font-size:12px; color:var(--g2); font-weight:700; text-align:center; }
 
-    /* ── TABELA ── */
-    .data-table { width: 100%; border-collapse: collapse; font-size: 14px; margin: 14px auto; text-align:center; }
-    .data-table th {
-      background: var(--green-pale); text-align: left;
-      padding: 9px 14px; font-weight: 700; font-size: 13px;
-      border: 1px solid #c8dfc8; color: var(--green);
-    }
+    .img-placeholder { background:#f7faf7; border:2px dashed #b2d8b2; border-radius:7px; padding:28px; text-align:center; color:#888; font-size:13px; margin:14px auto 22px; max-width:750px; }
+    .img-placeholder svg { display:block; margin:0 auto 8px; opacity:.35; }
+    .img-placeholder code { font-size:12px; background:#eee; padding:1px 7px; border-radius:3px; }
+
+    .data-table { width:100%; border-collapse:collapse; font-size:14px; margin:14px auto; text-align:center; }
+    .data-table th { background:var(--green-pale); text-align:center; padding:10px 14px; font-weight:800; font-size:13px; border:1px solid #c8dfc8; color:var(--g2); }
     .data-table td { padding:9px 14px; border:1px solid #e4ece4; color:#333; vertical-align:middle; text-align:center; }
-    .data-table tr:nth-child(even) td { background: #f8faf8; }
+    .data-table tbody tr:hover td { background:#f0f8f0; }
+    .data-table tr:nth-child(even) td { background:#f8faf8; }
 
-    /* ── SEPARADOR ── */
-    hr { border: none; border-top: 1px solid var(--gray-border); margin: 4px 0; }
-
-    /* ── RODAPÉ ── */
+    /* FOOTER */
     .footer {
-      background: var(--green);
-      margin-top: 48px; padding: 28px 48px;
+      background: linear-gradient(135deg, var(--g1), #0d2810);
+      padding: 24px 40px;
       display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+      border-top: 1px solid rgba(0,229,255,.08);
     }
-    .footer-left { display: flex; align-items: center; gap: 12px; }
-    .footer-logo { width: 28px; height: 28px; background: rgba(255,255,255,.2); border-radius: 4px; display: flex; align-items: center; justify-content: center; }
-    .footer-logo svg { width: 18px; height: 18px; }
-    .footer-name { font-size: 14px; font-weight: 800; color: #fff; }
-    .footer-sub  { font-size: 11px; color: rgba(255,255,255,.6); margin-top: 1px; }
-    .footer-right { font-size: 12px; color: rgba(255,255,255,.55); text-align: right; line-height: 1.7; }
+    .footer-left { display:flex; align-items:center; gap:12px; }
+    .footer-logo-mark { width:30px; height:30px; border-radius:5px; background:linear-gradient(135deg,var(--g3),var(--g4)); display:flex; align-items:center; justify-content:center; }
+    .footer-logo-mark svg { width:16px; height:16px; }
+    .footer-name { font-size:14px; font-weight:900; color:#fff; }
+    .footer-sub { font-size:11px; color:rgba(255,255,255,.4); margin-top:1px; }
+    .footer-right { font-size:12px; color:rgba(255,255,255,.4); text-align:right; line-height:1.7; }
 
-    /* ── MOBILE ── */
-    @media (max-width: 640px) {
-      .inst-bar, .hero, .tabs-wrap { padding-left: 16px; padding-right: 16px; }
-      .main { padding: 0 12px 60px; }
-      .card { padding: 20px 16px; }
-      .footer { padding: 20px 16px; }
-      .hero h1 { font-size: 20px; }
+    @media (max-width: 768px) {
+      .sidebar { display: none; }
+      .mod-content { padding: 20px 16px 60px; }
+      .modules-wrap { padding: 0 16px 60px; }
+      .home-hero { padding: 40px 20px 36px; }
+      .home-hero h1 { font-size: 24px; }
     }
   </style>
 </head>
 <body>
 
-<!-- ── BARRA INSTITUCIONAL ── -->
+<!-- ══════════════════════════════════════
+     BARRA INSTITUCIONAL
+══════════════════════════════════════ -->
 <div class="inst-bar">
-  <div class="inst-bar-logo">
+  <div class="inst-logo" onclick="goHome()">
     <div class="logo-mark">
       <svg viewBox="0 0 22 22" fill="none">
-        <rect width="22" height="22" rx="3" fill="#1b5e20"/>
-        <path d="M4 11 L11 5 L18 11 L18 18 L4 18 Z" fill="#fff" opacity=".9"/>
-        <rect x="8" y="13" width="6" height="5" fill="#1b5e20"/>
+        <circle cx="11" cy="11" r="9" stroke="#00e5ff" stroke-width="1.2" opacity=".5"/>
+        <path d="M6 11 L11 6 L16 11 L16 17 L6 17 Z" fill="#fff" opacity=".9"/>
+        <rect x="8.5" y="13" width="5" height="4" fill="#0a2e0d"/>
       </svg>
     </div>
     <div>
-      <div class="logo-text">DG Consultoria</div>
-      <div class="logo-sub">Soluções sistemicas</div>
+      <div class="logo-name">DG Consultoria</div>
+      <div class="logo-tagline">Gestão · Tecnologia · Resultados</div>
     </div>
   </div>
-  <div class="inst-bar-right">Base de Conhecimento Interno &nbsp;·&nbsp; Winthor</div>
+  <div class="inst-right">Portal de Implantações · Winthor</div>
 </div>
 
-<!-- ── HERO ── -->
-<div class="hero">
-  <div class="hero-badge">WINTHOR · Gestão Patrimonial</div>
-  <h1>Implantação do Módulo de Ativo Imobilizado</h1>
-  <p class="hero-desc">
-    Procedimento operacional padrão para configuração e operação do módulo de imobilizado no Winthor —
-    da parametrização inicial ao cadastro completo dos bens patrimoniais.
-  </p>
-  <div class="hero-meta">
-    <span>📅 Abril de 2026</span>
-    <span>📋 Versão 2.0</span>
-    <span>🏢 Planning · BPO Contábil</span>
-    <span>🔖 Módulos: Patrimonial</span>
-  </div>
-</div>
+<!-- ══════════════════════════════════════
+     TELA HOME
+══════════════════════════════════════ -->
+<div id="screen-home">
 
-<!-- ── ABAS ── -->
-<div class="tabs-wrap">
-  <div class="tabs">
-    <button class="tab active" onclick="showTab('intro',this)">Introdução</button>
-    <button class="tab" onclick="showTab('p0',this)"><span class="tab-num">!</span>Parâmetros Iniciais</button>
-    <button class="tab" onclick="showTab('p1',this)"><span class="tab-num">1</span>Grupos de Bens</button>
-    <button class="tab" onclick="showTab('p2',this)"><span class="tab-num">2</span>Vínculo Contábil</button>
-    <button class="tab" onclick="showTab('p3',this)"><span class="tab-num">3</span>Localização</button>
-    <button class="tab" onclick="showTab('p4',this)"><span class="tab-num">4</span>Responsável</button>
-    <button class="tab" onclick="showTab('p5',this)"><span class="tab-num">5</span>Cadastro de Bens</button>
-  </div>
-</div>
-
-<div class="main">
-
-  <!-- ══════════════════════════════════
-       INTRODUÇÃO
-  ══════════════════════════════════ -->
-  <div id="tab-intro" class="section active">
-    <div class="card">
-      <div class="card-title"><span class="icon">📘</span>Sobre este procedimento</div>
+  <div class="home-hero">
+    <div class="home-glow1"></div>
+    <div class="home-glow2"></div>
+    <div class="home-hero-content">
+      <div class="home-badge"><span class="dot"></span>Base de Conhecimento · Winthor</div>
+      <h1>Portal de <span>Gestão de Implantações</span></h1>
       <p>
-        Este POP orienta a equipe na implantação do módulo de
-        <strong>Ativo Imobilizado do Winthor</strong>, cobrindo desde a parametrização inicial
-        até o cadastro completo dos bens patrimoniais dos clientes.
+        Material de gestão para implantações Winthor. O objetivo é fornecer POPs de forma
+        <strong style="color:rgba(255,255,255,.9)">clara e exemplificada</strong>,
+        com vídeos, imagens e passo a passo detalhado para cada módulo do sistema.
       </p>
-      <p>
-        O processo é dividido em <strong> xxx (colocar número final) passos sequenciais</strong>. É fundamental seguir a ordem,
-        pois cada etapa é pré-requisito da seguinte.
-      </p>
-
-      <div class="img-wrap">
-  <img src="patrimonio.png" alt="">
-  <div class="img-caption"></div>
-</div>
-
-      <div class="sub-title">Sequência de implantação</div>
-      <table class="data-table">
-        <thead>
-          <tr><th>#</th><th>Etapa</th><th>Rotina Winthor</th><th>Obrigatório</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>!</td><td>Definir parâmetro de contabilização</td><td>132</td><td>✅ Sim</td></tr>
-          <tr><td>1</td><td>Cadastrar grupos de bens patrimoniais</td><td>3406</td><td>✅ Sim</td></tr>
-          <tr><td>2</td><td>Vincular contas contábeis ao grupo</td><td>2135</td><td>✅ Sim</td></tr>
-          <tr><td>3</td><td>Cadastrar localização dos bens</td><td>3407</td><td>✅ Sim</td></tr>
-          <tr><td>4</td><td>Cadastrar responsável pelos bens</td><td>3408</td><td>✅ Sim</td></tr>
-          <tr><td>5</td><td>Cadastrar os bens patrimoniais</td><td>3401</td><td>✅ Sim</td></tr>
-        </tbody>
-      </table>
     </div>
   </div>
 
-  <!-- ══════════════════════════════════
-       PARÂMETRO INICIAL
-  ══════════════════════════════════ -->
-  <div id="tab-p0" class="section">
-    <div class="card">
-      <div class="card-title"><span class="icon">⚙️</span>Parâmetro Inicial — Forma de Contabilização</div>
-      <div class="rotina-tag">Rotina 132 · Parâmetro 3149</div>
+  <div class="modules-wrap">
+    <div class="modules-header">
+      <h2>Módulos disponíveis</h2>
+      <span>Selecione um módulo para acessar os POPs</span>
+    </div>
 
-      <div class="box box-atencao">
-        <div class="box-title">⚠️ Atenção — Execute este passo antes de qualquer cadastro</div>
-        Para definir a forma de contabilização na contabilidade — se a depreciação será
-        <strong>por bem ou por grupo</strong> — acesse a <strong>Rotina 132</strong> e inclua
-        essa informação no <strong>parâmetro 3149</strong>. Ponto importante <strong> realizar processo por filial</strong>
-      </div>
+    <div class="modules-grid">
 
-     <div class="img-wrap">
-  <img src="rotina_132.png" alt="Rotina 132 - Parâmetros da presidência">
-  <div class="img-caption">Rotina 132 - Parâmetros da presidência (contate o TI para alteração)</div>
-</div>
-
-      <div class="sub-title">Passo a passo</div>
-      <div class="steps">
-        <div class="step">
-          <div class="step-num">1</div>
-          <div class="step-body">
-            <strong>Acessar a Rotina 132</strong>
-            <p>No Winthor, acesse a <strong>Rotina 132 — Parâmetros</strong> e filtre pelo parâmetro <strong>3149</strong>.</p>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-num">2</div>
-          <div class="step-body">
-            <strong>Selecionar o tipo de contabilização</strong>
-            <p>Escolha entre <strong>Grupo</strong> ou <strong>Individual (por bem)</strong></p>
-          </div>
+      <!-- MÓDULO 34 — ATIVO -->
+      <div class="module-card" onclick="openModule()">
+        <div class="module-icon">🏛️</div>
+        <div class="module-num">Módulo 34</div>
+        <div class="module-name">Gestão Patrimonial — Ativo Imobilizado</div>
+        <div class="module-desc">Configuração e operação do módulo de imobilizado: grupos de bens, depreciação, localização, responsáveis e cadastro de bens.</div>
+        <div class="module-footer">
+          <div class="module-pops">POPs disponíveis: <strong>5</strong></div>
+          <button class="module-btn">Acessar →</button>
         </div>
       </div>
 
-      <div class="box box-dica">
-        <div class="box-title">💡 Boa prática</div>
-        O mais indicado é incluir a informação <strong>por grupo</strong>, pois a informação por bem
-        fica disponível nas rotinas 3411 e 3419. Avaliar necessidade com o time contábil.
-        Considerado boa prática para fins de redução de volume para lançamentos contábeis e ganho
-        de tempo na geração da ECD e nas integrações entre os módulos.
+      <!-- MÓDULOS FUTUROS -->
+      <div class="module-card soon">
+        <div class="module-icon">📦</div>
+        <div class="module-num">Módulo 08</div>
+        <div class="module-name">Gestão de Estoque e Inventário</div>
+        <div class="module-desc">Controle de estoque, inventários, ajustes e movimentações de produtos.</div>
+        <div class="module-footer">
+          <div class="module-pops"></div>
+          <span class="soon-badge">Em breve</span>
+        </div>
       </div>
+
+      <div class="module-card soon">
+        <div class="module-icon">💰</div>
+        <div class="module-num">Módulo 12</div>
+        <div class="module-name">Contas a Pagar e Receber</div>
+        <div class="module-desc">Gestão financeira, títulos, baixas, conciliação e relatórios de fluxo de caixa.</div>
+        <div class="module-footer">
+          <div class="module-pops"></div>
+          <span class="soon-badge">Em breve</span>
+        </div>
+      </div>
+
+      <div class="module-card soon">
+        <div class="module-icon">📊</div>
+        <div class="module-num">Módulo 20</div>
+        <div class="module-name">Contabilidade e ECD</div>
+        <div class="module-desc">Lançamentos contábeis, geração da ECD, integrações e relatórios gerenciais.</div>
+        <div class="module-footer">
+          <div class="module-pops"></div>
+          <span class="soon-badge">Em breve</span>
+        </div>
+      </div>
+
+      <div class="module-card soon">
+        <div class="module-icon">🧾</div>
+        <div class="module-num">Módulo 15</div>
+        <div class="module-name">Fiscal e Tributário</div>
+        <div class="module-desc">Configuração de impostos, SPED Fiscal, apuração de tributos e obrigações acessórias.</div>
+        <div class="module-footer">
+          <div class="module-pops"></div>
+          <span class="soon-badge">Em breve</span>
+        </div>
+      </div>
+
+      <div class="module-card soon">
+        <div class="module-icon">🚚</div>
+        <div class="module-num">Módulo 06</div>
+        <div class="module-name">Compras e Recebimento</div>
+        <div class="module-desc">Pedidos de compra, entrada de notas fiscais, conferência e integração com estoque.</div>
+        <div class="module-footer">
+          <div class="module-pops"></div>
+          <span class="soon-badge">Em breve</span>
+        </div>
+      </div>
+
     </div>
   </div>
-
-  <!-- ══════════════════════════════════
-       1º PASSO — GRUPOS DE BENS
-  ══════════════════════════════════ -->
-  <div id="tab-p1" class="section">
-    <div class="card">
-      <div class="card-title"><span class="icon">🗂️</span>1º Passo — Cadastro de Grupos de Bens Patrimoniais</div>
-      <div class="rotina-tag">Rotina 3406 — Cadastro de Grupo de Bens</div>
-
-      <p>
-        Cadastrar os grupos de bens para agrupar os ativos. Podem ser feitos muitos tipos de
-        separações conforme a necessidade interna do cliente.
-      </p>
-
-      <div class="img-wrap">
-  <img src="rotina_3406.png" alt="Rotina 3406 — Cadastro de Grupo de Bens">
-  <div class="img-caption">Rotina 3406 — Cadastro de Grupo de Bens</div>
 </div>
 
-      <div class="sub-title">Passo a passo</div>
-      <div class="steps">
-        <div class="step">
-          <div class="step-num">1</div>
-          <div class="step-body">
-            <strong>Acessar a Rotina 3406</strong>
-            <p>No Winthor, acesse a <strong>Rotina 3406 — Cadastro de Grupo de Bens</strong> e clique em <strong>Incluir</strong>.</p>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-num">2</div>
-          <div class="step-body">
-            <strong>Preencher os campos do grupo</strong>
-            <p>Informe o código, descrição, taxa de depreciação anual e o plano de contas vinculado.</p>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-num">3</div>
-          <div class="step-body">
-            <strong>Gravar</strong>
-            <p>Clique em <strong>Gravar</strong> para salvar o grupo. Repita para cada grupo necessário.</p>
-          </div>
-        </div>
-      </div>
+<!-- ══════════════════════════════════════
+     TELA MÓDULO 34
+══════════════════════════════════════ -->
+<div id="screen-module">
 
-      <div class="sub-title">Campos do cadastro</div>
-      <div class="fields-grid">
-        <div class="field-item">
-          <div class="field-label">Cód. Grupo <span class="field-req">obrigatório</span></div>
-          <div class="field-desc">Código numérico sequencial do grupo.</div>
-        </div>
-        <div class="field-item">
-          <div class="field-label">Descrição <span class="field-req">obrigatório</span></div>
-          <div class="field-desc">Ex: IMÓVEIS, VEÍCULOS, MÁQUINAS E EQUIPAMENTOS.</div>
-        </div>
-        <div class="field-item">
-          <div class="field-label">Taxa de Depreciação Anual <span class="field-req">obrigatório</span></div>
-          <div class="field-desc">Percentual anual conforme tabela da Receita Federal. Ex: 4,00% para imóveis.</div>
-        </div>
-        <div class="field-item">
-          <div class="field-label">Plano de Contas <span class="field-req">obrigatório</span></div>
-          <div class="field-desc">Cód. Reduzido e Cód. Analítico da conta do ativo no plano de contas.</div>
-        </div>
+  <!-- HERO MÓDULO -->
+  <div class="mod-hero">
+    <div class="mod-hero-glow"></div>
+    <div class="mod-hero-content">
+      <div class="mod-breadcrumb">
+        <button onclick="goHome()">🏠 Portal</button>
+        <span class="sep">›</span>
+        <span style="color:rgba(255,255,255,.8)">Módulo 34 — Gestão Patrimonial</span>
       </div>
-
-      <div class="box box-info">
-        <div class="box-title">ℹ️ Observação</div>
-        A manutenção do plano de contas deve ser feita pela <strong>Rotina 2135</strong>,
-        que será configurada no próximo passo.
+      <div class="mod-badge"><span class="dot"></span>WINT · Módulo 34</div>
+      <h1>Gestão Patrimonial — <span>Ativo Imobilizado</span></h1>
+      <p class="mod-hero-desc">Procedimento operacional padrão para configuração e operação do módulo de imobilizado no Winthor.</p>
+      <div class="mod-hero-meta">
+        <span class="mod-chip">📅 Abril de 2026</span>
+        <span class="mod-chip">📋 Versão 1.0</span>
+        <span class="mod-chip">🏢 DG Consultoria</span>
+        <span class="mod-chip">🔖 Rotinas 132 · 2135 · 3406 · 3407 · 3408</span>
       </div>
     </div>
   </div>
 
-  <!-- ══════════════════════════════════
-       2º PASSO — VÍNCULO CONTÁBIL
-  ══════════════════════════════════ -->
-  <div id="tab-p2" class="section">
-    <div class="card">
-      <div class="card-title"><span class="icon">🔗</span>2º Passo — Vínculo Contábil para Contabilização</div>
-      <div class="rotina-tag">Rotina 2135 — Relacionar Contas Contábeis x Grupo de Bens</div>
+  <!-- BODY: SIDEBAR + CONTEÚDO -->
+  <div class="mod-body">
 
-      <p>
-        Rotina utilizada para completar o vínculo contábil do grupo de bens,
-        relacionando as contas necessárias para os lançamentos de depreciação.
-      </p>
+    <!-- SIDEBAR CASCATA -->
+    <nav class="sidebar">
+      <div class="sidebar-section-title">Módulo 34</div>
 
-      <div class="img-wrap">
-  <img src="rotina_2135.png" alt="Rotina 3406 — Cadastro de Grupo de Bens">
-  <div class="img-caption">Rotina 2135 — Relacionar Contas Contábeis</div>
-</div>
-
-      <div class="sub-title">O que vincular nesta rotina</div>
-      <div class="steps">
-        <div class="step">
-          <div class="step-num">1</div>
-          <div class="step-body">
-            <strong>Conta do Ativo (Conta do Bem)</strong>
-            <p>Conta redutora do ativo — representa o bem no balanço patrimonial.</p>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-num">2</div>
-          <div class="step-body">
-            <strong>Conta de Depreciação Acumulada</strong>
-            <p>Vincular a conta da <strong>depreciação redutora do ativo</strong>. Ex: (-) IMÓVEIS — DEPRECIAÇÃO.</p>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-num">3</div>
-          <div class="step-body">
-            <strong>Conta de Despesa da Depreciação</strong>
-            <p>Vincular a conta de <strong>depreciação do resultado</strong>. Possível separar custo e despesa, caso necessário.</p>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-num">4</div>
-          <div class="step-body">
-            <strong>Histórico Padrão de Contabilização</strong>
-            <p>Vincular o código de histórico padrão para os lançamentos de depreciação mensal.</p>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-num">5</div>
-          <div class="step-body">
-            <strong>Gravar</strong>
-            <p>Clique em <strong>Gravar</strong> para confirmar o vínculo. Repita para cada grupo cadastrado.</p>
-          </div>
+      <div class="sidebar-group">
+        <button class="sidebar-group-btn open" onclick="toggleGroup(this)">
+          📋 Visão Geral <span class="arrow">›</span>
+        </button>
+        <div class="sidebar-items open">
+          <button class="sidebar-item active" onclick="showSection('intro', this)">
+            <span class="item-num">—</span> Introdução
+          </button>
         </div>
       </div>
 
-      <div class="box box-dica">
-        <div class="box-title">💡 Exemplo de configuração — Grupo IMÓVEIS</div>
-        <ul style="margin:6px 0 0 16px;padding:0;">
-          <li><strong>Conta do Ativo:</strong> 1082 — IMÓVEIS</li>
-          <li><strong>Conta Depreciação:</strong> 6904 — (-) IMÓVEIS - DEPRECIAÇÃO</li>
-          <li><strong>Conta Despesa:</strong> 5924 — DEPRECIAÇÃO E AMORTIZAÇÃO</li>
-          <li><strong>Histórico:</strong> 25 — DEPRECIAÇÃO MENSAL</li>
-          <li><strong>Taxa anual:</strong> 4,00%</li>
-        </ul>
+      <div class="sidebar-divider"></div>
+
+      <div class="sidebar-group">
+        <button class="sidebar-group-btn open" onclick="toggleGroup(this)">
+          ⚙️ Configuração Inicial <span class="arrow">›</span>
+        </button>
+        <div class="sidebar-items open">
+          <button class="sidebar-item" onclick="showSection('p0', this)">
+            <span class="item-num">!</span> Parâmetro 3149
+          </button>
+        </div>
       </div>
-    </div>
-  </div>
 
-  <!-- ══════════════════════════════════
-       3º PASSO — LOCALIZAÇÃO
-  ══════════════════════════════════ -->
-  <div id="tab-p3" class="section">
-    <div class="card">
-      <div class="card-title"><span class="icon">📍</span>3º Passo — Cadastro de Localização dos Bens</div>
-      <div class="rotina-tag">Rotina 3407 — Cadastro de Localização de Bens</div>
+      <div class="sidebar-divider"></div>
 
-      <p>
-        Rotina utilizada para vincular ativos a departamentos específicos. Em casos de
-        muitas filiais e sem controle de centro de custo interno, pode ser cadastrada a
-        localização como cada filial para destinar o bem a cada uma delas.
-      </p>
-      <p>
-        Muito utilizado quando existe uma <strong>centralização de aquisição de ativos imobilizados</strong>
-        por uma empresa e uso em empresas diversas.
-      </p>
+      <div class="sidebar-group">
+        <button class="sidebar-group-btn open" onclick="toggleGroup(this)">
+          🗂️ Cadastros Base <span class="arrow">›</span>
+        </button>
+        <div class="sidebar-items open">
+          <button class="sidebar-item" onclick="showSection('p1', this)">
+            <span class="item-num">1</span> Grupos de Bens
+          </button>
+          <button class="sidebar-item" onclick="showSection('p2', this)">
+            <span class="item-num">2</span> Vínculo Contábil
+          </button>
+          <button class="sidebar-item" onclick="showSection('p3', this)">
+            <span class="item-num">3</span> Localização
+          </button>
+          <button class="sidebar-item" onclick="showSection('p4', this)">
+            <span class="item-num">4</span> Responsável
+          </button>
+        </div>
+      </div>
 
-  <div class="img-wrap">
-  <img src="rotina_3407.png" alt="Rotina 3406 — Cadastro de Grupo de Bens">
-  <div class="img-caption">Rotina 3407 — Cadastro de locação de bens</div>
-</div>
+      <div class="sidebar-divider"></div>
 
-      <div class="sub-title">Passo a passo</div>
-      <div class="steps">
-        <div class="step">
-          <div class="step-num">1</div>
-          <div class="step-body">
-            <strong>Acessar a Rotina 3407</strong>
-            <p>No Winthor, acesse a <strong>Rotina 3407 — Cadastro de Localização de Bens</strong> e clique em <strong>Incluir</strong></p>
+      <div class="sidebar-group">
+        <button class="sidebar-group-btn open" onclick="toggleGroup(this)">
+          🏷️ Operação <span class="arrow">›</span>
+        </button>
+        <div class="sidebar-items open">
+          <button class="sidebar-item" onclick="showSection('p5', this)">
+            <span class="item-num">5</span> Cadastro de Bens
+          </button>
+        </div>
+      </div>
+
+    </nav>
+
+    <!-- CONTEÚDO -->
+    <div class="mod-content">
+
+      <!-- INTRODUÇÃO -->
+      <div id="sec-intro" class="section active">
+        <div class="card">
+          <div class="card-title"><span class="icon">📘</span>Sobre este procedimento</div>
+          <p>Este POP orienta a equipe da <strong>DG Consultoria</strong> na implantação do módulo de <strong>Ativo Imobilizado do Winthor</strong>, cobrindo desde a parametrização inicial até o cadastro completo dos bens patrimoniais dos clientes.</p>
+          <p>O processo é dividido em <strong>5 passos sequenciais</strong>. É fundamental seguir a ordem, pois cada etapa é pré-requisito da seguinte.</p>
+          <div class="video-placeholder">
+            <div class="play-btn"><svg viewBox="0 0 10 10"><polygon points="2,1 9,5 2,9"/></svg></div>
+            <strong>Vídeo de introdução — Visão geral do módulo</strong>
+            <p>Vídeo local: <code>&lt;video controls src="videos/introducao.mp4"&gt;&lt;/video&gt;</code></p>
           </div>
+          <div class="sub-title">Sequência de implantação</div>
+          <table class="data-table">
+            <thead><tr><th>#</th><th>Etapa</th><th>Rotina Winthor</th><th>Obrigatório</th></tr></thead>
+            <tbody>
+              <tr><td>!</td><td>Definir parâmetro de contabilização</td><td>132 → Parâmetros </td><td>✅ Sim</td></tr>
+              <tr><td>1</td><td>Cadastrar grupos de bens patrimoniais</td><td>3406</td><td>✅ Sim</td></tr>
+              <tr><td>2</td><td>Vincular contas contábeis ao grupo</td><td>2135</td><td>✅ Sim</td></tr>
+              <tr><td>3</td><td>Cadastrar localização dos bens</td><td>3407</td><td>✅ Sim</td></tr>
+              <tr><td>4</td><td>Cadastrar responsável pelos bens</td><td>3408</td><td>✅ Sim</td></tr>
+              <tr><td>5</td><td>Cadastrar os bens patrimoniais</td><td>3401</td><td>✅ Sim</td></tr>
+            </tbody>
+          </table>
         </div>
-        <div class="step">
-          <div class="step-num">2</div>
-          <div class="step-body">
-            <strong>Preencher os campos</strong>
-            <p>Informe o <strong>Cód. de Localização</strong> (sequencial) e a <strong>Descrição</strong> da localização.</p>
+      </div>
+
+      <!-- PARÂMETRO INICIAL -->
+      <div id="sec-p0" class="section">
+        <div class="card">
+          <div class="card-title"><span class="icon">⚙️</span>Parâmetro Inicial — Forma de Contabilização</div>
+          <div class="rotina-tag">Rotina 132 · Parâmetro 3149</div>
+          <div class="box box-atencao">
+            <div class="box-title">⚠️ Atenção — Execute este passo antes de qualquer cadastro</div>
+            Para definir a forma de contabilização — se a depreciação será <strong>por bem ou por grupo</strong> — acesse a <strong>Rotina 132</strong> e inclua essa informação no <strong>parâmetro 3149</strong>.
           </div>
-        </div>
-        <div class="step">
-          <div class="step-num">3</div>
-          <div class="step-body">
-            <strong>Gravar</strong>
-            <p>Clique em <strong>Gravar</strong> para salvar. Repita para cada localização necessária.</p>
+          <div class="video-placeholder">
+            <div class="play-btn"><svg viewBox="0 0 10 10"><polygon points="2,1 9,5 2,9"/></svg></div>
+            <strong>Vídeo: Configuração do parâmetro 3149 na rotina 132</strong>
+            <p>Vídeo local: <code>videos/parametro-3149.mp4</code></p>
           </div>
+          <div class="sub-title">Passo a passo</div>
+          <div class="step"><div class="step-num">1</div><div class="step-body"><strong>Acessar a Rotina 132</strong><p>No Winthor, acesse a <strong>Rotina 132 — Parâmetros</strong> e filtre pelo parâmetro <strong>3149</strong>.</p></div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-body"><strong>Selecionar o tipo de contabilização</strong><p>Escolha entre <strong>Grupo</strong> ou <strong>Individual (por bem)</strong> conforme a necessidade do cliente.</p></div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-body"><strong>Gravar</strong><p>Confirme e grave a configuração antes de prosseguir.</p></div></div>
+          <div class="img-placeholder"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21,15 16,10 5,21"/></svg>Substitua por: <code>imgs/parametro-3149.png</code></div>
+          <div class="box box-dica"><div class="box-title">💡 Boa prática</div>O mais indicado é incluir a informação <strong>por grupo</strong> — reduz volume de lançamentos contábeis e ganha tempo na geração da ECD.</div>
         </div>
       </div>
 
-      <div class="box box-dica">
-        <div class="box-title">💡 Dica</div>
-        Em caso de indisponibilidade de informações para controle, é recomendada a criação
-        de um cadastro <strong>GERAL</strong> como localização padrão.
-        Pode ser criada uma estrutura robusta para controle por departamento e empresa também.
-      </div>
-    </div>
-  </div>
-
-  <!-- ══════════════════════════════════
-       4º PASSO — RESPONSÁVEL
-  ══════════════════════════════════ -->
-  <div id="tab-p4" class="section">
-    <div class="card">
-      <div class="card-title"><span class="icon">👤</span>4º Passo — Cadastro de Responsável pelos Bens</div>
-      <div class="rotina-tag">Rotina 3408 — Cadastro de Responsável de Bens</div>
-
-      <p>
-        Rotina utilizada para vincular pessoas responsáveis por equipes e equipamentos.
-        Pode ser criado por departamentos para ter um controle ativo a quem recorrer em caso de dúvidas.
-        Normalmente atrelado ao mesmo responsável incluído em contratos — cargos como gerentes e
-        coordenadores são comuns.
-      </p>
-
-     <div class="img-wrap">
-  <img src="rotina_3408.png" alt="Rotina 3406 — Cadastro de Grupo de Bens">
-  <div class="img-caption">Rotina 3408 — Cadastro de Responsáveis de Bens</div>
-</div>
-
-      <div class="sub-title">Passo a passo</div>
-      <div class="steps">
-        <div class="step">
-          <div class="step-num">1</div>
-          <div class="step-body">
-            <strong>Acessar a Rotina 3408</strong>
-            <p>No Winthor, acesse a <strong>Rotina 3408 — Cadastro de Responsável de Bens</strong> e clique em <strong>Incluir</strong></p>
+      <!-- 1º PASSO -->
+      <div id="sec-p1" class="section">
+        <div class="card">
+          <div class="card-title"><span class="icon">🗂️</span>1º Passo — Cadastro de Grupos de Bens Patrimoniais</div>
+          <div class="rotina-tag">Rotina 3406 — Cadastro de Grupo de Bens</div>
+          <p>Cadastrar os grupos de bens para agrupar os ativos. Podem ser feitos muitos tipos de separações conforme a necessidade interna do cliente.</p>
+          <div class="video-placeholder">
+            <div class="play-btn"><svg viewBox="0 0 10 10"><polygon points="2,1 9,5 2,9"/></svg></div>
+            <strong>Vídeo: Cadastro de grupos de bens — Rotina 3406</strong>
+            <p>Vídeo local: <code>videos/rotina-3406.mp4</code></p>
           </div>
-        </div>
-        <div class="step">
-          <div class="step-num">2</div>
-          <div class="step-body">
-            <strong>Preencher os campos</strong>
-            <p>Informe o <strong>Cód. Responsável</strong><strong>Descrição</strong> (nome ou cargo) <strong>Localização</strong> </p>
+          <div class="sub-title">Passo a passo</div>
+          <div class="step"><div class="step-num">1</div><div class="step-body"><strong>Acessar a Rotina 3406</strong><p>No Winthor, acesse a <strong>Rotina 3406 — Cadastro de Grupo de Bens</strong> e clique em <strong>Incluir</strong>.</p></div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-body"><strong>Preencher os campos</strong><p>Informe o código, descrição, taxa de depreciação anual e plano de contas vinculado.</p></div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-body"><strong>Gravar</strong><p>Clique em <strong>Gravar</strong>. Repita para cada grupo necessário.</p></div></div>
+          <div class="img-placeholder"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21,15 16,10 5,21"/></svg>Substitua por: <code>imgs/rotina-3406.png</code></div>
+          <div class="sub-title">Campos do cadastro</div>
+          <div class="fields-grid">
+            <div class="field-item"><div class="field-label">Cód. Grupo <span class="field-req">obrigatório</span></div><div class="field-desc">Código numérico sequencial do grupo.</div></div>
+            <div class="field-item"><div class="field-label">Descrição <span class="field-req">obrigatório</span></div><div class="field-desc">Ex: IMÓVEIS, VEÍCULOS, MÁQUINAS E EQUIPAMENTOS.</div></div>
+            <div class="field-item"><div class="field-label">Taxa de Depreciação Anual <span class="field-req">obrigatório</span></div><div class="field-desc">Percentual anual conforme tabela da Receita Federal. Ex: 4,00% para imóveis.</div></div>
+            <div class="field-item"><div class="field-label">Plano de Contas <span class="field-req">obrigatório</span></div><div class="field-desc">Cód. Reduzido e Cód. Analítico da conta do ativo.</div></div>
           </div>
+          <div class="box box-info"><div class="box-title">ℹ️ Observação</div>A manutenção do plano de contas deve ser feita pela <strong>Rotina 2135</strong>, configurada no próximo passo.</div>
         </div>
-        <div class="step">
-          <div class="step-num">3</div>
-          <div class="step-body">
-            <strong>Habilitar flag de alteração (se necessário)</strong>
-            <p>Marque a opção <strong>"Permite alterar localização do bem no lançamento"</strong> se o responsável puder realocar bens entre departamentos.</p>
+      </div>
+
+      <!-- 2º PASSO -->
+      <div id="sec-p2" class="section">
+        <div class="card">
+          <div class="card-title"><span class="icon">🔗</span>2º Passo — Vínculo Contábil para Contabilização</div>
+          <div class="rotina-tag">Rotina 2135 — Relacionar Contas Contábeis x Grupo de Bens</div>
+          <p>Rotina utilizada para completar o vínculo contábil do grupo de bens, relacionando as contas necessárias para os lançamentos de depreciação.</p>
+          <div class="video-placeholder">
+            <div class="play-btn"><svg viewBox="0 0 10 10"><polygon points="2,1 9,5 2,9"/></svg></div>
+            <strong>Vídeo: Vínculo contábil — Rotina 2135</strong>
+            <p>Vídeo local: <code>videos/rotina-2135.mp4</code></p>
           </div>
+          <div class="sub-title">O que vincular nesta rotina</div>
+          <div class="step"><div class="step-num">1</div><div class="step-body"><strong>Conta do Ativo</strong><p>Conta redutora do ativo — representa o bem no balanço patrimonial.</p></div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-body"><strong>Conta de Depreciação Acumulada</strong><p>Vincular a conta da <strong>depreciação redutora do ativo</strong>. Ex: (-) IMÓVEIS — DEPRECIAÇÃO.</p></div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-body"><strong>Conta de Despesa da Depreciação</strong><p>Vincular a conta de <strong>depreciação do resultado</strong>. Possível separar custo e despesa.</p></div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-body"><strong>Histórico Padrão</strong><p>Vincular o código de histórico padrão para os lançamentos mensais.</p></div></div>
+          <div class="step"><div class="step-num">5</div><div class="step-body"><strong>Gravar</strong><p>Clique em <strong>Gravar</strong>. Repita para cada grupo cadastrado.</p></div></div>
+          <div class="img-placeholder"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21,15 16,10 5,21"/></svg>Substitua por: <code>imgs/rotina-2135.png</code></div>
+          <div class="box box-dica"><div class="box-title">💡 Exemplo — Grupo IMÓVEIS</div><ul style="margin:6px 0 0 16px;padding:0;"><li><strong>Conta do Ativo:</strong> 1082 — IMÓVEIS</li><li><strong>Conta Depreciação:</strong> 6904 — (-) IMÓVEIS - DEPRECIAÇÃO</li><li><strong>Conta Despesa:</strong> 5924 — DEPRECIAÇÃO E AMORTIZAÇÃO</li><li><strong>Histórico:</strong> 25 — DEPRECIAÇÃO MENSAL</li><li><strong>Taxa anual:</strong> 4,00%</li></ul></div>
         </div>
-        <div class="step">
-          <div class="step-num">4</div>
-          <div class="step-body">
-            <strong>Gravar</strong>
-            <p>Clique em <strong>Gravar</strong> para salvar o responsável.</p>
+      </div>
+
+      <!-- 3º PASSO -->
+      <div id="sec-p3" class="section">
+        <div class="card">
+          <div class="card-title"><span class="icon">📍</span>3º Passo — Cadastro de Localização dos Bens</div>
+          <div class="rotina-tag">Rotina 3407 — Cadastro de Localização de Bens</div>
+          <p>Rotina utilizada para vincular ativos a departamentos específicos. Em casos de muitas filiais e sem controle de centro de custo interno, pode ser cadastrada a localização como cada filial.</p>
+          <div class="video-placeholder">
+            <div class="play-btn"><svg viewBox="0 0 10 10"><polygon points="2,1 9,5 2,9"/></svg></div>
+            <strong>Vídeo: Cadastro de localização — Rotina 3407</strong>
+            <p>Vídeo local: <code>videos/rotina-3407.mp4</code></p>
           </div>
+          <div class="sub-title">Passo a passo</div>
+          <div class="step"><div class="step-num">1</div><div class="step-body"><strong>Acessar a Rotina 3407</strong><p>No Winthor, acesse a <strong>Rotina 3407 — Cadastro de Localização de Bens</strong> e clique em <strong>Incluir</strong>.</p></div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-body"><strong>Preencher os campos</strong><p>Informe o <strong>Cód. de Localização</strong> e a <strong>Descrição</strong>.</p></div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-body"><strong>Gravar</strong><p>Clique em <strong>Gravar</strong>. Repita para cada localização necessária.</p></div></div>
+          <div class="img-placeholder"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21,15 16,10 5,21"/></svg>Substitua por: <code>imgs/rotina-3407.png</code></div>
+          <div class="box box-dica"><div class="box-title">💡 Dica</div>Em caso de indisponibilidade de informações, crie um cadastro <strong>GERAL</strong> como localização padrão.</div>
         </div>
       </div>
 
-      <div class="box box-dica">
-        <div class="box-title">💡 Dica</div>
-        A <strong>flag de alteração</strong> permite alterações de pessoas e bens entre os
-        departamentos em caso de realocações.
-        Em caso de indisponibilidade de informações, recomenda-se a criação de um cadastro <strong>GERAL</strong>.
-      </div>
-    </div>
-  </div>
-
-  <!-- ══════════════════════════════════
-       5º PASSO — CADASTRO DE BENS
-  ══════════════════════════════════ -->
-  <div id="tab-p5" class="section">
-    <div class="card">
-      <div class="card-title"><span class="icon">🏷️</span>5º Passo — Cadastro de Bens de Ativo Imobilizado</div>
-      <div class="rotina-tag">Cadastro do Bem — Rotina de Cadastro de Bem</div>
-
-      <p>
-        Rotina onde é feito o cadastro dos bens de ativo imobilizado.
-        Após concluir os 4 passos anteriores, esta etapa pode ser executada.
-      </p>
-
-      <div class="video-wrap">
-  <video autoplay loop muted playsinline style="width:100%;display:block;max-height:500px;object-fit:contain;background:#000;">
-    <source src="Cadastro_de_bem_3401.mp4" type="video/mp4">
-  </video>
-  <div class="video-footer">Cadastro de Bem Patrimonial — Rotina 3401</div>
-</div>
-
-      <div class="sub-title">Campos do cadastro</div>
-
-      <div class="fields-grid">
-        <div class="field-item">
-          <div class="field-label">Filial <span class="field-opt">opcional</span></div>
-          <div class="field-desc">Não interfere no cadastro. Pode ser feita separação, porém não impacta nas demais etapas.</div>
-        </div>
-        <div class="field-item">
-          <div class="field-label">Descrição <span class="field-req">obrigatório</span></div>
-          <div class="field-desc">Adicionar o máximo de informações úteis possível para facilitar a identificação do bem.</div>
-        </div>
-        <div class="field-item">
-          <div class="field-label">Tipo do Bem <span class="field-req">obrigatório</span></div>
-          <div class="field-desc">Classificação do bem conforme natureza do ativo.</div>
-        </div>
-        <div class="field-item">
-          <div class="field-label">Grupo do Bem <span class="field-req">obrigatório</span></div>
-          <div class="field-desc">Atentar ao vínculo cadastrado na rotina 3406. Manter coerência com a finalidade e característica do bem.</div>
-        </div>
-        <div class="field-item">
-          <div class="field-label">Embalagem <span class="field-req">obrigatório</span></div>
-          <div class="field-desc">Normalmente utilizada <strong>UN</strong> (unidade).</div>
-        </div>
-        <div class="field-item">
-          <div class="field-label">NCM <span class="field-req">obrigatório</span></div>
-          <div class="field-desc">Incluir de acordo com a nota fiscal (presente no produto da nota).</div>
-        </div>
-        <div class="field-item">
-          <div class="field-label">Indicador de Escala Relevante <span class="field-req">obrigatório</span></div>
-          <div class="field-desc">Preencher conforme legislação aplicável ao bem.</div>
-        </div>
-        <div class="field-item">
-          <div class="field-label">Origem do CST <span class="field-req">obrigatório</span></div>
-          <div class="field-desc">Adicionar a informação conforme origem da mercadoria.</div>
-        </div>
-        <div class="field-item">
-          <div class="field-label">Tributação IPI <span class="field-req">obrigatório</span></div>
-          <div class="field-desc">Em caso de ausência de informação ou desconhecimento, incluir <strong>"outras entradas"</strong>.</div>
-        </div>
-        <div class="field-item">
-          <div class="field-label">Fornecedor <span class="field-opt">opcional</span></div>
-          <div class="field-desc">Não há necessidade de vínculo. O bem pode ser usado futuramente em outras entradas. Incluir conforme rotina 202 se necessário.</div>
+      <!-- 4º PASSO -->
+      <div id="sec-p4" class="section">
+        <div class="card">
+          <div class="card-title"><span class="icon">👤</span>4º Passo — Cadastro de Responsável pelos Bens</div>
+          <div class="rotina-tag">Rotina 3408 — Cadastro de Responsável de Bens</div>
+          <p>Rotina utilizada para vincular pessoas responsáveis por equipes e equipamentos. Cargos como gerentes e coordenadores são comuns.</p>
+          <div class="img-wrap">
+            <img src="rotina_3408.png" alt="Rotina 3408 — Cadastro de Responsável de Bens">
+            <div class="img-caption">Rotina 3408 — Cadastro de Responsável de Bens</div>
+          </div>
+          <div class="sub-title">Passo a passo</div>
+          <div class="step"><div class="step-num">1</div><div class="step-body"><strong>Acessar a Rotina 3408</strong><p>No Winthor, acesse a <strong>Rotina 3408</strong> e clique em <strong>Incluir</strong>.</p></div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-body"><strong>Preencher os campos</strong><p>Informe o <strong>Cód. Responsável</strong>, <strong>Descrição</strong> (nome ou cargo) e a <strong>Localização</strong>.</p></div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-body"><strong>Habilitar flag de alteração</strong><p>Marque <strong>"Permite alterar localização do bem no lançamento"</strong> se necessário.</p></div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-body"><strong>Gravar</strong><p>Clique em <strong>Gravar</strong>.</p></div></div>
+          <div class="box box-dica"><div class="box-title">💡 Dica</div>A <strong>flag de alteração</strong> permite realocações entre departamentos. Em caso de indisponibilidade de dados, crie um cadastro <strong>GERAL</strong>.</div>
         </div>
       </div>
 
-      <div class="box box-atencao">
-        <div class="box-title">⚠️ Indicador de Escala Relevante — Referência Legal</div>
-        Os bens relacionados no Anexo XXVII serão considerados fabricados em escala industrial
-        não relevante quando produzidos por contribuinte que atender, cumulativamente:
-        ser optante pelo Simples Nacional; auferir receita bruta igual ou inferior a R$ 180.000,00
-        no exercício anterior; possuir estabelecimento único; ser credenciado pela administração
-        tributária da unidade federada de destino.
+      <!-- 5º PASSO -->
+      <div id="sec-p5" class="section">
+        <div class="card">
+          <div class="card-title"><span class="icon">🏷️</span>5º Passo — Cadastro de Bens de Ativo Imobilizado</div>
+          <div class="rotina-tag">Cadastro do Bem — Rotina 3401</div>
+          <p>Rotina onde é feito o cadastro dos bens de ativo imobilizado. Após concluir os 4 passos anteriores, esta etapa pode ser executada.</p>
+          <div class="video-wrap">
+            <video autoplay loop muted playsinline style="width:100%;display:block;max-height:500px;object-fit:contain;background:#000;">
+              <source src="Cadastro_de_bem_3401.mp4" type="video/mp4">
+            </video>
+            <div class="video-footer">Cadastro de Bem Patrimonial — Rotina 3401 · DG Consultoria</div>
+          </div>
+          <div class="sub-title">Campos do cadastro</div>
+          <div class="fields-grid">
+            <div class="field-item"><div class="field-label">Filial <span class="field-opt">opcional</span></div><div class="field-desc">Não interfere no cadastro. Pode ser feita separação, porém não impacta nas demais etapas.</div></div>
+            <div class="field-item"><div class="field-label">Descrição <span class="field-req">obrigatório</span></div><div class="field-desc">Adicionar o máximo de informações úteis para facilitar a identificação do bem.</div></div>
+            <div class="field-item"><div class="field-label">Tipo do Bem <span class="field-req">obrigatório</span></div><div class="field-desc">Classificação do bem conforme natureza do ativo.</div></div>
+            <div class="field-item"><div class="field-label">Grupo do Bem <span class="field-req">obrigatório</span></div><div class="field-desc">Atentar ao vínculo cadastrado na rotina 3406. Manter coerência com a finalidade do bem.</div></div>
+            <div class="field-item"><div class="field-label">Embalagem <span class="field-req">obrigatório</span></div><div class="field-desc">Normalmente utilizada <strong>UN</strong> (unidade).</div></div>
+            <div class="field-item"><div class="field-label">NCM <span class="field-req">obrigatório</span></div><div class="field-desc">Incluir de acordo com a nota fiscal.</div></div>
+            <div class="field-item"><div class="field-label">Indicador de Escala Relevante <span class="field-req">obrigatório</span></div><div class="field-desc">Preencher conforme legislação aplicável ao bem.</div></div>
+            <div class="field-item"><div class="field-label">Origem do CST <span class="field-req">obrigatório</span></div><div class="field-desc">Adicionar conforme origem da mercadoria.</div></div>
+            <div class="field-item"><div class="field-label">Tributação IPI <span class="field-req">obrigatório</span></div><div class="field-desc">Em caso de ausência de informação, incluir <strong>"outras entradas"</strong>.</div></div>
+            <div class="field-item"><div class="field-label">Fornecedor <span class="field-opt">opcional</span></div><div class="field-desc">Não há necessidade de vínculo. Incluir conforme rotina 202 se necessário.</div></div>
+          </div>
+          <div class="box box-atencao"><div class="box-title">⚠️ Indicador de Escala Relevante</div>Considera-se não relevante quando o contribuinte atender: ser optante pelo Simples Nacional; receita bruta ≤ R$ 180.000,00 no exercício anterior; estabelecimento único; credenciado pela administração tributária de destino.</div>
+          <div class="box box-info"><div class="box-title">ℹ️ Marcado como Não</div>O produto não possuirá Cálculo do ST e as substituições tributárias não serão destacadas nas saídas.</div>
+          <div class="box box-dica"><div class="box-title">✅ Marcado como Sim</div>Considera o Cálculo de ST na entrada e na saída quando sujeito à substituição tributária.</div>
+        </div>
       </div>
 
-      <div class="box box-info">
-        <div class="box-title">ℹ️ Quando marcado como Não</div>
-        Na entrada de mercadoria, o produto não possuirá o Cálculo do ST e para as saídas
-        não serão destacadas as substituições tributárias.
-      </div>
+    </div><!-- /mod-content -->
+  </div><!-- /mod-body -->
 
-      <div class="box box-dica">
-        <div class="box-title">✅ Quando marcado como Sim</div>
-        O parâmetro considera o Cálculo de ST na entrada e na saída quando o produto
-        for sujeito à substituição tributária.
-      </div>
-    </div>
-  </div>
+</div><!-- /screen-module -->
 
-</div><!-- /main -->
-
-<!-- ── RODAPÉ ── -->
+<!-- RODAPÉ -->
 <div class="footer">
   <div class="footer-left">
-    <div class="footer-logo">
+    <div class="footer-logo-mark">
       <svg viewBox="0 0 22 22" fill="none">
-        <path d="M4 11 L11 5 L18 11 L18 18 L4 18 Z" fill="#fff" opacity=".9"/>
-        <rect x="8" y="13" width="6" height="5" fill="#1b5e20"/>
+        <circle cx="11" cy="11" r="9" stroke="rgba(0,229,255,.4)" stroke-width="1.2"/>
+        <path d="M6 11 L11 6 L16 11 L16 17 L6 17 Z" fill="#fff" opacity=".9"/>
+        <rect x="8.5" y="13" width="5" height="4" fill="#0a2e0d"/>
       </svg>
     </div>
     <div>
-      <div class="footer-name">Planning</div>
-      <div class="footer-sub">Soluções Contábeis, Tributárias e Societárias</div>
+      <div class="footer-name">DG Consultoria</div>
+      <div class="footer-sub">Gestão · Tecnologia · Resultados</div>
     </div>
   </div>
-  <div class="footer-right">
-    Base de Conhecimento Interno · Winthor Imobilizado<br>
-    Versão 1.0 · Abril de 2026 · BPO Contábil
-  </div>
+  <div class="footer-right">Portal de Implantações · Winthor<br>Versão 1.0 · Abril de 2026</div>
 </div>
 
 <script>
-  function showTab(id, btn) {
-    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-    document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
-    document.getElementById('tab-' + id).classList.add('active');
-    btn.classList.add('active');
+  // ── NAVEGAÇÃO HOME / MÓDULO ──
+  function openModule() {
+    document.getElementById('screen-home').style.display = 'none';
+    document.getElementById('screen-module').style.display = 'flex';
+    document.getElementById('screen-module').style.flexDirection = 'column';
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function goHome() {
+    document.getElementById('screen-home').style.display = 'block';
+    document.getElementById('screen-module').style.display = 'none';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // ── SIDEBAR: SEÇÕES ──
+  function showSection(id, btn) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.sidebar-item').forEach(b => b.classList.remove('active'));
+    document.getElementById('sec-' + id).classList.add('active');
+    btn.classList.add('active');
+    document.querySelector('.mod-content').scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // ── SIDEBAR: GRUPOS CASCATA ──
+  function toggleGroup(btn) {
+    btn.classList.toggle('open');
+    const items = btn.nextElementSibling;
+    items.classList.toggle('open');
   }
 </script>
 </body>
