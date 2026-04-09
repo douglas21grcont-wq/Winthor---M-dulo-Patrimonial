@@ -579,13 +579,16 @@
             <span class="item-num">7</span> Lançamento de saldo inicial
          </button>
           <button class="sidebar-item" onclick="showSection('p8',this)">
-            <span class="item-num">8</span> Entrada de nota fiscal
+            <span class="item-num">8</span> Lançamento Avulso
         </button>
           <button class="sidebar-item" onclick="showSection('p9',this)">
-            <span class="item-num">9</span> Manutenção de bens
-          </button>
+            <span class="item-num">9</span> Entrada de nota fiscal
+        </button>
           <button class="sidebar-item" onclick="showSection('p10',this)">
-            <span class="item-num">10</span> Conferir Grupo x conta gerencial
+            <span class="item-num">10</span> Manutenção de bens
+          </button>
+          <button class="sidebar-item" onclick="showSection('p11',this)">
+            <span class="item-num">11</span> Conferir Grupo x conta gerencial
           </button>
         </div>
       </div>
@@ -597,14 +600,14 @@
           📊 Contabilidade <span class="arrow">›</span>
       </button>
         <div class="sidebar-items open">
-          <button class="sidebar-item" onclick="showSection('p11',this)">
-            <span class="item-num">11</span> Individualização do bens
-          </button>
           <button class="sidebar-item" onclick="showSection('p12',this)">
-            <span class="item-num">12</span> Gerar depreciação
+            <span class="item-num">12</span> Individualização do bens
           </button>
           <button class="sidebar-item" onclick="showSection('p13',this)">
-            <span class="item-num">13</span> Salvar relatório
+            <span class="item-num">13</span> Gerar depreciação
+          </button>
+          <button class="sidebar-item" onclick="showSection('p14',this)">
+            <span class="item-num">14</span> Salvar relatório
           </button>
         </div>
       </div>
@@ -632,6 +635,7 @@
           </div>
           <div class="sub-title">Sequência de implantação</div>
 
+          <!-- TABELA DE SUMARIO DG -->
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin:16px 0;justify-content:center;">
 
   <!-- CADASTROS BASE -->
@@ -682,16 +686,21 @@
       </div>
       <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#333;">
         <span style="background:#1976d2;color:#fff;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;flex-shrink:0;">8</span>
+        <span>Lançamento avulso</span>
+        <span style="margin-left:auto;font-size:11px;font-weight:700;background:#fff;color:#1976d2;padding:1px 7px;border-radius:3px;border:1px solid #bbdefb;">3420</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#333;">
+        <span style="background:#1976d2;color:#fff;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;flex-shrink:0;">9</span>
         <span>Entrada de nota fiscal</span>
         <span style="margin-left:auto;font-size:11px;font-weight:700;background:#fff;color:#1976d2;padding:1px 7px;border-radius:3px;border:1px solid #bbdefb;">1301</span>
       </div>
       <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#333;">
-        <span style="background:#1976d2;color:#fff;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;flex-shrink:0;">9</span>
+        <span style="background:#1976d2;color:#fff;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;flex-shrink:0;">10</span>
         <span>Manutenção de bens</span>
         <span style="margin-left:auto;font-size:11px;font-weight:700;background:#fff;color:#1976d2;padding:1px 7px;border-radius:3px;border:1px solid #bbdefb;">2135</span>
       </div>
       <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#333;">
-        <span style="background:#1976d2;color:#fff;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;flex-shrink:0;">10</span>
+        <span style="background:#1976d2;color:#fff;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;flex-shrink:0;">11</span>
         <span>Conferir Grupo x conta gerencial</span>
         <span style="margin-left:auto;font-size:11px;font-weight:700;background:#fff;color:#1976d2;padding:1px 7px;border-radius:3px;border:1px solid #bbdefb;">—</span>
       </div>
@@ -703,17 +712,17 @@
     <div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:#4a148c;margin-bottom:10px;">📊 Contabilidade</div>
     <div style="display:flex;flex-direction:column;gap:6px;">
       <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#333;">
-        <span style="background:#7b1fa2;color:#fff;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;flex-shrink:0;">11</span>
+        <span style="background:#7b1fa2;color:#fff;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;flex-shrink:0;">12</span>
         <span>Individualização do bem</span>
         <span style="margin-left:auto;font-size:11px;font-weight:700;background:#fff;color:#7b1fa2;padding:1px 7px;border-radius:3px;border:1px solid #e1bee7;">3411</span>
       </div>
       <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#333;">
-        <span style="background:#7b1fa2;color:#fff;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;flex-shrink:0;">12</span>
+        <span style="background:#7b1fa2;color:#fff;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;flex-shrink:0;">13</span>
         <span>Gerar depreciação</span>
         <span style="margin-left:auto;font-size:11px;font-weight:700;background:#fff;color:#7b1fa2;padding:1px 7px;border-radius:3px;border:1px solid #e1bee7;">3419</span>
       </div>
       <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#333;">
-        <span style="background:#7b1fa2;color:#fff;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;flex-shrink:0;">13</span>
+        <span style="background:#7b1fa2;color:#fff;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;flex-shrink:0;">14</span>
         <span>Salvar relatório</span>
         <span style="margin-left:auto;font-size:11px;font-weight:700;background:#fff;color:#7b1fa2;padding:1px 7px;border-radius:3px;border:1px solid #e1bee7;">3411</span>
       </div>
@@ -1051,7 +1060,7 @@
           </div>
           <div class="box box-atencao">
             <div class="box-title">⚠️ Atenção!!</div>
-            Rotina usualmente utilizada em implantações de saldos. O processo de lançamento padrão é feito, na rotina 3402, avance para os próximos passos!
+            Rotina usualmente utilizada em implantações de saldos. O processo de lançamento padrão é feito na rotina 3402, avance para os próximos passos!
           </div>
           <div class="box box-info">
             <div class="box-title">ℹ️ Informações adicionais</div>
