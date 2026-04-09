@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>WINT — Implantação do Módulo Imobilizado</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green:       #1b5e20;
+      --green-mid:   #2e7d32;
+      --green-light: #43a047;
+      --green-bg:    #f1f8f1;
+      --green-pale:  #e8f5e9;
+      --gray-bg:     #f5f6f5;
+      --gray-border: #dde8dd;
+      --text:        #1a1a1a;
+      --text-muted:  #555;
+    }
+
+    body {
+      font-family: 'Nunito Sans', Arial, sans-serif;
+      font-size: 15px;
+      color: var(--text);
+      background: var(--gray-bg);
+      line-height: 1.75;
+    }
+
+    /* ── TOPO INSTITUCIONAL ── */
+    .inst-bar {
+      background: var(--green);
+      padding: 10px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .inst-bar-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .logo-mark {
+      width: 36px; height: 36px;
+      background: #fff;
+      border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .logo-mark svg { width: 22px; height: 22px; }
+    .logo-text { color: #fff; font-size: 15px; font-weight: 800; letter-spacing: -.2px; }
+    .logo-sub  { color: rgba(255,255,255,.65); font-size: 11px; font-weight: 400; margin-top: -2px; }
+    .inst-bar-right { font-size: 12px; color: rgba(255,255,255,.6); }
+
+    /* ── HERO / CABEÇALHO DO DOC ── */
+    .hero {
+      background: var(--green-mid);
+      padding: 36px 48px 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      right: -60px; top: -60px;
+      width: 280px; height: 280px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.04);
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,.15);
+      color: #fff; font-size: 11px; font-weight: 700;
+      padding: 4px 12px; border-radius: 20px;
+      text-transform: uppercase; letter-spacing: .8px;
+      margin-bottom: 12px;
+    }
+    .hero-badge::before {
+      content: '';
+      width: 6px; height: 6px; border-radius: 50%;
+      background: #a5d6a7;
+    }
+    .hero h1 {
+      font-size: 26px; font-weight: 800;
+      color: #fff; line-height: 1.25;
+      margin-bottom: 8px; max-width: 640px;
+    }
+    .hero-desc {
+      font-size: 14px; color: rgba(255,255,255,.78);
+      max-width: 580px; margin-bottom: 24px; line-height: 1.65;
+    }
+    .hero-meta {
+      display: flex; gap: 24px; flex-wrap: wrap;
+      font-size: 12px; color: rgba(255,255,255,.65);
+      padding-bottom: 20px;
+    }
+    .hero-meta span { display: flex; align-items: center; gap: 5px; }
+
+    /* ── TABS ── */
+    .tabs-wrap {
+      background: var(--green-mid);
+      padding: 0 48px;
+      border-bottom: 3px solid var(--green);
+    }
+    .tabs {
+      display: flex; gap: 0;
+      overflow-x: auto;
+    }
+    .tab {
+      padding: 12px 22px;
+      font-size: 13px; font-weight: 700;
+      color: rgba(255,255,255,.65);
+      background: transparent; border: none;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      margin-bottom: -3px;
+      white-space: nowrap;
+      transition: all .15s;
+      font-family: inherit;
+      display: flex; align-items: center; gap: 7px;
+    }
+    .tab .tab-num {
+      width: 20px; height: 20px; border-radius: 50%;
+      background: rgba(255,255,255,.15);
+      font-size: 11px; font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .tab:hover { color: #fff; background: rgba(255,255,255,.07); }
+    .tab.active {
+      color: #fff;
+      border-bottom-color: #fff;
+      background: rgba(255,255,255,.1);
+    }
+    .tab.active .tab-num {
+      background: #fff;
+      color: var(--green-mid);
+    }
+
+    /* ── LAYOUT PRINCIPAL ── */
+    .main { max-width: 900px; margin: 32px auto; padding: 0 24px 80px; }
+    .section { display: none; }
+    .section.active { display: block; }
+
+    /* ── CARDS ── */
+    .card {
+      background: #fff;
+      border: 1px solid var(--gray-border);
+      border-radius: 8px;
+      padding: 28px 32px;
+      margin-bottom: 20px;
+    }
+    .card + .card { margin-top: 0; }
+
+    /* ── TÍTULOS ── */
+    .card-title {
+      font-size: 17px; font-weight: 800;
+      color: var(--green);
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--green-pale);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .card-title .icon {
+      width: 32px; height: 32px; border-radius: 8px;
+      background: var(--green-pale);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; font-size: 15px;
+    }
+    .sub-title {
+      font-size: 14px; font-weight: 700;
+      color: var(--green); margin: 20px 0 10px;
+    }
+
+    /* ── ROTINA BADGE ── */
+    .rotina-tag {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--green); color: #fff;
+      font-size: 12px; font-weight: 700;
+      padding: 4px 12px; border-radius: 4px;
+      margin-bottom: 14px;
+    }
+
+    /* ── TEXTO ── */
+    .card p { font-size: 15px; color: #333; margin-bottom: 12px; line-height: 1.75; }
+    .card strong { color: #111; font-weight: 700; }
+    .card ul { padding-left: 20px; margin-bottom: 12px; }
+    .card ul li { font-size: 14px; color: #333; margin-bottom: 6px; line-height: 1.65; }
+
+    /* ── PASSOS ── */
+    .steps { margin: 4px 0 8px; }
+    .step {
+      display: flex; gap: 14px;
+      margin-bottom: 12px; align-items: flex-start;
+    }
+    .step-num {
+      min-width: 28px; height: 28px;
+      background: var(--green); color: #fff;
+      border-radius: 50%; font-size: 13px; font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+      margin-top: 2px; flex-shrink: 0;
+    }
+    .step-body { flex: 1; padding-top: 3px; }
+    .step-body strong { display: block; font-size: 14px; color: #111; margin-bottom: 2px; }
+    .step-body p { font-size: 14px; color: var(--text-muted); margin: 0; line-height: 1.65; }
+
+    /* ── CAMPOS OBRIGATÓRIOS ── */
+    .fields-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 10px;
+      margin: 14px 0;
+    }
+    .field-item {
+      background: var(--green-bg);
+      border: 1px solid var(--gray-border);
+      border-radius: 6px;
+      padding: 10px 14px;
+    }
+    .field-label {
+      font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .5px;
+      color: var(--green); margin-bottom: 3px;
+    }
+    .field-desc { font-size: 13px; color: #333; line-height: 1.5; }
+    .field-req {
+      display: inline-block;
+      font-size: 10px; font-weight: 700;
+      background: var(--green); color: #fff;
+      padding: 1px 6px; border-radius: 3px;
+      margin-left: 4px; vertical-align: middle;
+      text-transform: uppercase; letter-spacing: .3px;
+    }
+    .field-opt {
+      display: inline-block;
+      font-size: 10px; font-weight: 700;
+      background: #e0e0e0; color: #555;
+      padding: 1px 6px; border-radius: 3px;
+      margin-left: 4px; vertical-align: middle;
+      text-transform: uppercase; letter-spacing: .3px;
+    }
+
+    /* ── ALERT BOXES ── */
+    .box {
+      border-radius: 6px; padding: 14px 18px;
+      font-size: 14px; margin: 16px 0;
+      border-left: 4px solid; line-height: 1.65;
+    }
+    .box-title {
+      font-weight: 800; font-size: 12px;
+      text-transform: uppercase; letter-spacing: .5px;
+      margin-bottom: 5px; display: flex; align-items: center; gap: 6px;
+    }
+    .box-atencao { background: #fff8e1; border-color: #f9a825; color: #4e3b00; }
+    .box-atencao .box-title { color: #7a5500; }
+    .box-dica    { background: var(--green-pale); border-color: var(--green-mid); color: #1b3d1d; }
+    .box-dica .box-title { color: var(--green); }
+    .box-info    { background: #e3f2fd; border-color: #1976d2; color: #0d3c61; }
+    .box-info .box-title { color: #1565c0; }
+    .box-danger  { background: #fdecea; border-color: #c62828; color: #5f0000; }
+    .box-danger .box-title { color: #b71c1c; }
+
+    /* ── VÍDEO ── */
+    .video-wrap {
+      margin: 18px 0 24px;
+      border-radius: 8px; overflow: hidden;
+      border: 1px solid var(--gray-border);
+      background: #000;
+    }
+    .video-wrap video { display: block; width: 100%; max-height: 460px; }
+    .video-wrap iframe { display: block; width: 100%; height: 420px; border: none; }
+    .video-footer {
+      background: var(--green-bg);
+      border-top: 1px solid var(--gray-border);
+      padding: 8px 16px; font-size: 12px; color: var(--green);
+      display: flex; align-items: center; gap: 8px; font-weight: 600;
+    }
+    .video-footer::before {
+      content: '▶';
+      width: 20px; height: 20px; border-radius: 50%;
+      background: var(--green); color: #fff;
+      font-size: 8px;
+      display: flex; align-items: center; justify-content: center;
+      padding-left: 2px;
+    }
+
+    .video-placeholder {
+      background: #141f14;
+      border-radius: 8px; border: 1px solid #1e3a1e;
+      padding: 36px 24px; text-align: center;
+      margin: 18px 0 24px;
+    }
+    .video-placeholder strong { color: #c8e6c9; display: block; margin-bottom: 6px; font-size: 14px; font-weight: 700; }
+    .video-placeholder p { color: #6a9b6d; font-size: 13px; margin: 0; }
+    .video-placeholder code { background: rgba(255,255,255,.07); padding: 2px 7px; border-radius: 3px; font-size: 12px; color: #a5d6a7; }
+    .play-btn {
+      width: 52px; height: 52px; border-radius: 50%;
+      background: var(--green-mid);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 14px;
+    }
+    .play-btn svg { fill: #fff; width: 18px; height: 18px; margin-left: 3px; }
+
+    /* ── IMAGEM ── */
+    .img-wrap {
+      margin: 14px 0 22px;
+      border: 1px solid var(--gray-border);
+      border-radius: 6px; overflow: hidden;
+      max-width: 100%;
+    }
+    .img-wrap img { display: block; max-width: 100%; height: auto; }
+    .img-caption {
+      background: var(--green-bg); border-top: 1px solid var(--gray-border);
+      padding: 7px 14px; font-size: 12px; color: var(--green); font-weight: 600;
+    }
+    .img-placeholder {
+      background: #f7faf7; border: 2px dashed #b2d8b2;
+      border-radius: 6px; padding: 28px; text-align: center;
+      color: #888; font-size: 13px; margin: 14px 0 22px;
+    }
+    .img-placeholder svg { display: block; margin: 0 auto 8px; opacity: .35; }
+    .img-placeholder code { font-size: 12px; background: #eee; padding: 1px 7px; border-radius: 3px; }
+
+    /* ── TABELA ── */
+    .data-table { width: 100%; border-collapse: collapse; font-size: 14px; margin: 14px 0; }
+    .data-table th {
+      background: var(--green-pale); text-align: left;
+      padding: 9px 14px; font-weight: 700; font-size: 13px;
+      border: 1px solid #c8dfc8; color: var(--green);
+    }
+    .data-table td { padding: 9px 14px; border: 1px solid #e4ece4; color: #333; vertical-align: top; }
+    .data-table tr:nth-child(even) td { background: #f8faf8; }
+
+    /* ── SEPARADOR ── */
+    hr { border: none; border-top: 1px solid var(--gray-border); margin: 4px 0; }
+
+    /* ── RODAPÉ ── */
+    .footer {
+      background: var(--green);
+      margin-top: 48px; padding: 28px 48px;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+    }
+    .footer-left { display: flex; align-items: center; gap: 12px; }
+    .footer-logo { width: 28px; height: 28px; background: rgba(255,255,255,.2); border-radius: 4px; display: flex; align-items: center; justify-content: center; }
+    .footer-logo svg { width: 18px; height: 18px; }
+    .footer-name { font-size: 14px; font-weight: 800; color: #fff; }
+    .footer-sub  { font-size: 11px; color: rgba(255,255,255,.6); margin-top: 1px; }
+    .footer-right { font-size: 12px; color: rgba(255,255,255,.55); text-align: right; line-height: 1.7; }
+
+    /* ── MOBILE ── */
+    @media (max-width: 640px) {
+      .inst-bar, .hero, .tabs-wrap { padding-left: 16px; padding-right: 16px; }
+      .main { padding: 0 12px 60px; }
+      .card { padding: 20px 16px; }
+      .footer { padding: 20px 16px; }
+      .hero h1 { font-size: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── BARRA INSTITUCIONAL ── -->
+<div class="inst-bar">
+  <div class="inst-bar-logo">
+    <div class="logo-mark">
+      <svg viewBox="0 0 22 22" fill="none">
+        <rect width="22" height="22" rx="3" fill="#1b5e20"/>
+        <path d="M4 11 L11 5 L18 11 L18 18 L4 18 Z" fill="#fff" opacity=".9"/>
+        <rect x="8" y="13" width="6" height="5" fill="#1b5e20"/>
+      </svg>
+    </div>
+    <div>
+      <div class="logo-text">Planning</div>
+      <div class="logo-sub">Soluções Contábeis, Tributárias e Societárias</div>
+    </div>
+  </div>
+  <div class="inst-bar-right">Base de Conhecimento Interno &nbsp;·&nbsp; Winthor</div>
+</div>
+
+<!-- ── HERO ── -->
+<div class="hero">
+  <div class="hero-badge">WINT · Módulo Imobilizado</div>
+  <h1>Implantação do Módulo de Ativo Imobilizado</h1>
+  <p class="hero-desc">
+    Procedimento operacional padrão para configuração e operação do módulo de imobilizado no Winthor —
+    da parametrização inicial ao cadastro completo dos bens patrimoniais.
+  </p>
+  <div class="hero-meta">
+    <span>📅 Abril de 2026</span>
+    <span>📋 Versão 1.0</span>
+    <span>🏢 Planning · BPO Contábil</span>
+    <span>🔖 Módulos: 132 · 2135 · 3406 · 3407 · 3408</span>
+  </div>
+</div>
+
+<!-- ── ABAS ── -->
+<div class="tabs-wrap">
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('intro',this)">Introdução</button>
+    <button class="tab" onclick="showTab('p0',this)"><span class="tab-num">!</span>Parâmetro Inicial</button>
+    <button class="tab" onclick="showTab('p1',this)"><span class="tab-num">1</span>Grupos de Bens</button>
+    <button class="tab" onclick="showTab('p2',this)"><span class="tab-num">2</span>Vínculo Contábil</button>
+    <button class="tab" onclick="showTab('p3',this)"><span class="tab-num">3</span>Localização</button>
+    <button class="tab" onclick="showTab('p4',this)"><span class="tab-num">4</span>Responsável</button>
+    <button class="tab" onclick="showTab('p5',this)"><span class="tab-num">5</span>Cadastro de Bens</button>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- ══════════════════════════════════
+       INTRODUÇÃO
+  ══════════════════════════════════ -->
+  <div id="tab-intro" class="section active">
+    <div class="card">
+      <div class="card-title"><span class="icon">📘</span>Sobre este procedimento</div>
+      <p>
+        Este POP orienta a equipe da <strong>Planning</strong> na implantação do módulo de
+        <strong>Ativo Imobilizado do Winthor</strong>, cobrindo desde a parametrização inicial
+        até o cadastro completo dos bens patrimoniais dos clientes.
+      </p>
+      <p>
+        O processo é dividido em <strong>5 passos sequenciais</strong>. É fundamental seguir a ordem,
+        pois cada etapa é pré-requisito da seguinte.
+      </p>
+
+      <div class="video-placeholder">
+        <div class="play-btn"><svg viewBox="0 0 10 10"><polygon points="2,1 9,5 2,9"/></svg></div>
+        <strong>Vídeo de introdução — Visão geral do módulo</strong>
+        <p>Vídeo local: <code>&lt;video controls src="videos/introducao.mp4"&gt;&lt;/video&gt;</code><br>
+        Microsoft Stream: cole o código de incorporação abaixo deste bloco.</p>
+      </div>
+
+      <div class="sub-title">Sequência de implantação</div>
+      <table class="data-table">
+        <thead>
+          <tr><th>#</th><th>Etapa</th><th>Rotina Winthor</th><th>Obrigatório</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>!</td><td>Definir parâmetro de contabilização</td><td>132 → Parâmetro 3149</td><td>✅ Sim</td></tr>
+          <tr><td>1</td><td>Cadastrar grupos de bens patrimoniais</td><td>3406</td><td>✅ Sim</td></tr>
+          <tr><td>2</td><td>Vincular contas contábeis ao grupo</td><td>2135</td><td>✅ Sim</td></tr>
+          <tr><td>3</td><td>Cadastrar localização dos bens</td><td>3407</td><td>✅ Sim</td></tr>
+          <tr><td>4</td><td>Cadastrar responsável pelos bens</td><td>3408</td><td>✅ Sim</td></tr>
+          <tr><td>5</td><td>Cadastrar os bens patrimoniais</td><td>Cadastro do Bem</td><td>✅ Sim</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════
+       PARÂMETRO INICIAL
+  ══════════════════════════════════ -->
+  <div id="tab-p0" class="section">
+    <div class="card">
+      <div class="card-title"><span class="icon">⚙️</span>Parâmetro Inicial — Forma de Contabilização</div>
+      <div class="rotina-tag">Rotina 132 · Parâmetro 3149</div>
+
+      <div class="box box-atencao">
+        <div class="box-title">⚠️ Atenção — Execute este passo antes de qualquer cadastro</div>
+        Para definir a forma de contabilização na contabilidade — se a depreciação será
+        <strong>por bem ou por grupo</strong> — acesse a <strong>Rotina 132</strong> e inclua
+        essa informação no <strong>parâmetro 3149</strong>.
+      </div>
+
+      <div class="video-placeholder">
+        <div class="play-btn"><svg viewBox="0 0 10 10"><polygon points="2,1 9,5 2,9"/></svg></div>
+        <strong>Vídeo: Configuração do parâmetro 3149 na rotina 132</strong>
+        <p>Vídeo local: <code>videos/parametro-3149.mp4</code> &nbsp;|&nbsp; ou embed do Microsoft Stream.</p>
+      </div>
+
+      <div class="sub-title">Passo a passo</div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <strong>Acessar a Rotina 132</strong>
+            <p>No Winthor, acesse a <strong>Rotina 132 — Parâmetros</strong> e filtre pelo parâmetro <strong>3149</strong>.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <strong>Selecionar o tipo de contabilização</strong>
+            <p>Escolha entre <strong>Grupo</strong> ou <strong>Individual (por bem)</strong>.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="img-placeholder">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21,15 16,10 5,21"/></svg>
+        Substitua por: <code>imgs/parametro-3149.png</code>
+      </div>
+
+      <div class="box box-dica">
+        <div class="box-title">💡 Boa prática</div>
+        O mais indicado é incluir a informação <strong>por grupo</strong>, pois a informação por bem
+        fica disponível nas rotinas 3411 e 3419. Avaliar necessidade com o time contábil.
+        Considerado boa prática para fins de redução de volume para lançamentos contábeis e ganho
+        de tempo na geração da ECD e nas integrações entre os módulos.
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════
+       1º PASSO — GRUPOS DE BENS
+  ══════════════════════════════════ -->
+  <div id="tab-p1" class="section">
+    <div class="card">
+      <div class="card-title"><span class="icon">🗂️</span>1º Passo — Cadastro de Grupos de Bens Patrimoniais</div>
+      <div class="rotina-tag">Rotina 3406 — Cadastro de Grupo de Bens</div>
+
+      <p>
+        Cadastrar os grupos de bens para agrupar os ativos. Podem ser feitos muitos tipos de
+        separações conforme a necessidade interna do cliente.
+      </p>
+
+      <div class="video-placeholder">
+        <div class="play-btn"><svg viewBox="0 0 10 10"><polygon points="2,1 9,5 2,9"/></svg></div>
+        <strong>Vídeo: Cadastro de grupos de bens — Rotina 3406</strong>
+        <p>Vídeo local: <code>videos/rotina-3406.mp4</code> &nbsp;|&nbsp; ou embed do Microsoft Stream.</p>
+      </div>
+
+      <div class="sub-title">Passo a passo</div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <strong>Acessar a Rotina 3406</strong>
+            <p>No Winthor, acesse a <strong>Rotina 3406 — Cadastro de Grupo de Bens</strong> e clique em <strong>Incluir</strong>.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <strong>Preencher os campos do grupo</strong>
+            <p>Informe o código, descrição, taxa de depreciação anual e o plano de contas vinculado.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <strong>Gravar</strong>
+            <p>Clique em <strong>Gravar</strong> para salvar o grupo. Repita para cada grupo necessário.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="img-placeholder">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21,15 16,10 5,21"/></svg>
+        Substitua por: <code>imgs/rotina-3406.png</code>
+      </div>
+
+      <div class="sub-title">Campos do cadastro</div>
+      <div class="fields-grid">
+        <div class="field-item">
+          <div class="field-label">Cód. Grupo <span class="field-req">obrigatório</span></div>
+          <div class="field-desc">Código numérico sequencial do grupo.</div>
+        </div>
+        <div class="field-item">
+          <div class="field-label">Descrição <span class="field-req">obrigatório</span></div>
+          <div class="field-desc">Ex: IMÓVEIS, VEÍCULOS, MÁQUINAS E EQUIPAMENTOS.</div>
+        </div>
+        <div class="field-item">
+          <div class="field-label">Taxa de Depreciação Anual <span class="field-req">obrigatório</span></div>
+          <div class="field-desc">Percentual anual conforme tabela da Receita Federal. Ex: 4,00% para imóveis.</div>
+        </div>
+        <div class="field-item">
+          <div class="field-label">Plano de Contas <span class="field-req">obrigatório</span></div>
+          <div class="field-desc">Cód. Reduzido e Cód. Analítico da conta do ativo no plano de contas.</div>
+        </div>
+      </div>
+
+      <div class="box box-info">
+        <div class="box-title">ℹ️ Observação</div>
+        A manutenção do plano de contas deve ser feita pela <strong>Rotina 2135</strong>,
+        que será configurada no próximo passo.
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════
+       2º PASSO — VÍNCULO CONTÁBIL
+  ══════════════════════════════════ -->
+  <div id="tab-p2" class="section">
+    <div class="card">
+      <div class="card-title"><span class="icon">🔗</span>2º Passo — Vínculo Contábil para Contabilização</div>
+      <div class="rotina-tag">Rotina 2135 — Relacionar Contas Contábeis x Grupo de Bens</div>
+
+      <p>
+        Rotina utilizada para completar o vínculo contábil do grupo de bens,
+        relacionando as contas necessárias para os lançamentos de depreciação.
+      </p>
+
+      <div class="video-placeholder">
+        <div class="play-btn"><svg viewBox="0 0 10 10"><polygon points="2,1 9,5 2,9"/></svg></div>
+        <strong>Vídeo: Vínculo contábil — Rotina 2135</strong>
+        <p>Vídeo local: <code>videos/rotina-2135.mp4</code> &nbsp;|&nbsp; ou embed do Microsoft Stream.</p>
+      </div>
+
+      <div class="sub-title">O que vincular nesta rotina</div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <strong>Conta do Ativo (Conta do Bem)</strong>
+            <p>Conta redutora do ativo — representa o bem no balanço patrimonial.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <strong>Conta de Depreciação Acumulada</strong>
+            <p>Vincular a conta da <strong>depreciação redutora do ativo</strong>. Ex: (-) IMÓVEIS — DEPRECIAÇÃO.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <strong>Conta de Despesa da Depreciação</strong>
+            <p>Vincular a conta de <strong>depreciação do resultado</strong>. Possível separar custo e despesa, caso necessário.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <strong>Histórico Padrão de Contabilização</strong>
+            <p>Vincular o código de histórico padrão para os lançamentos de depreciação mensal.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">5</div>
+          <div class="step-body">
+            <strong>Gravar</strong>
+            <p>Clique em <strong>Gravar</strong> para confirmar o vínculo. Repita para cada grupo cadastrado.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="img-placeholder">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21,15 16,10 5,21"/></svg>
+        Substitua por: <code>imgs/rotina-2135.png</code>
+      </div>
+
+      <div class="box box-dica">
+        <div class="box-title">💡 Exemplo de configuração — Grupo IMÓVEIS</div>
+        <ul style="margin:6px 0 0 16px;padding:0;">
+          <li><strong>Conta do Ativo:</strong> 1082 — IMÓVEIS</li>
+          <li><strong>Conta Depreciação:</strong> 6904 — (-) IMÓVEIS - DEPRECIAÇÃO</li>
+          <li><strong>Conta Despesa:</strong> 5924 — DEPRECIAÇÃO E AMORTIZAÇÃO</li>
+          <li><strong>Histórico:</strong> 25 — DEPRECIAÇÃO MENSAL</li>
+          <li><strong>Taxa anual:</strong> 4,00%</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════
+       3º PASSO — LOCALIZAÇÃO
+  ══════════════════════════════════ -->
+  <div id="tab-p3" class="section">
+    <div class="card">
+      <div class="card-title"><span class="icon">📍</span>3º Passo — Cadastro de Localização dos Bens</div>
+      <div class="rotina-tag">Rotina 3407 — Cadastro de Localização de Bens</div>
+
+      <p>
+        Rotina utilizada para vincular ativos a departamentos específicos. Em casos de
+        muitas filiais e sem controle de centro de custo interno, pode ser cadastrada a
+        localização como cada filial para destinar o bem a cada uma delas.
+      </p>
+      <p>
+        Muito utilizado quando existe uma <strong>centralização de aquisição de ativos imobilizados</strong>
+        por uma empresa e uso em empresas diversas.
+      </p>
+
+      <div class="video-placeholder">
+        <div class="play-btn"><svg viewBox="0 0 10 10"><polygon points="2,1 9,5 2,9"/></svg></div>
+        <strong>Vídeo: Cadastro de localização — Rotina 3407</strong>
+        <p>Vídeo local: <code>videos/rotina-3407.mp4</code> &nbsp;|&nbsp; ou embed do Microsoft Stream.</p>
+      </div>
+
+      <div class="sub-title">Passo a passo</div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <strong>Acessar a Rotina 3407</strong>
+            <p>No Winthor, acesse a <strong>Rotina 3407 — Cadastro de Localização de Bens</strong> e clique em <strong>Incluir</strong>.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <strong>Preencher os campos</strong>
+            <p>Informe o <strong>Cód. de Localização</strong> (sequencial) e a <strong>Descrição</strong> da localização.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <strong>Gravar</strong>
+            <p>Clique em <strong>Gravar</strong> para salvar. Repita para cada localização necessária.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="img-placeholder">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21,15 16,10 5,21"/></svg>
+        Substitua por: <code>imgs/rotina-3407.png</code>
+      </div>
+
+      <div class="box box-dica">
+        <div class="box-title">💡 Dica</div>
+        Em caso de indisponibilidade de informações para controle, é recomendada a criação
+        de um cadastro <strong>GERAL</strong> como localização padrão.
+        Pode ser criada uma estrutura robusta para controle por departamento e empresa também.
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════
+       4º PASSO — RESPONSÁVEL
+  ══════════════════════════════════ -->
+  <div id="tab-p4" class="section">
+    <div class="card">
+      <div class="card-title"><span class="icon">👤</span>4º Passo — Cadastro de Responsável pelos Bens</div>
+      <div class="rotina-tag">Rotina 3408 — Cadastro de Responsável de Bens</div>
+
+      <p>
+        Rotina utilizada para vincular pessoas responsáveis por equipes e equipamentos.
+        Pode ser criado por departamentos para ter um controle ativo a quem recorrer em caso de dúvidas.
+        Normalmente atrelado ao mesmo responsável incluído em contratos — cargos como gerentes e
+        coordenadores são comuns.
+      </p>
+
+      <div class="video-placeholder">
+        <div class="play-btn"><svg viewBox="0 0 10 10"><polygon points="2,1 9,5 2,9"/></svg></div>
+        <strong>Vídeo: Cadastro de responsável — Rotina 3408</strong>
+        <p>Vídeo local: <code>videos/rotina-3408.mp4</code> &nbsp;|&nbsp; ou embed do Microsoft Stream.</p>
+      </div>
+
+      <div class="sub-title">Passo a passo</div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <strong>Acessar a Rotina 3408</strong>
+            <p>No Winthor, acesse a <strong>Rotina 3408 — Cadastro de Responsável de Bens</strong> e clique em <strong>Incluir</strong>.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <strong>Preencher os campos</strong>
+            <p>Informe o <strong>Cód. Responsável</strong>, a <strong>Descrição</strong> (nome ou cargo) e a <strong>Localização</strong> vinculada.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <strong>Habilitar flag de alteração (se necessário)</strong>
+            <p>Marque a opção <strong>"Permite alterar localização do bem no lançamento"</strong> se o responsável puder realocar bens entre departamentos.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <strong>Gravar</strong>
+            <p>Clique em <strong>Gravar</strong> para salvar o responsável.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="img-placeholder">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21,15 16,10 5,21"/></svg>
+        Substitua por: <code>imgs/rotina-3408.png</code>
+      </div>
+
+      <div class="box box-dica">
+        <div class="box-title">💡 Dica</div>
+        A <strong>flag de alteração</strong> permite alterações de pessoas e bens entre os
+        departamentos em caso de realocações.
+        Em caso de indisponibilidade de informações, recomenda-se a criação de um cadastro <strong>GERAL</strong>.
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════
+       5º PASSO — CADASTRO DE BENS
+  ══════════════════════════════════ -->
+  <div id="tab-p5" class="section">
+    <div class="card">
+      <div class="card-title"><span class="icon">🏷️</span>5º Passo — Cadastro de Bens de Ativo Imobilizado</div>
+      <div class="rotina-tag">Cadastro do Bem — Rotina de Cadastro de Produto/Bem</div>
+
+      <p>
+        Rotina onde é feito o cadastro dos bens de ativo imobilizado.
+        Após concluir os 4 passos anteriores, esta etapa pode ser executada.
+      </p>
+
+      <div class="video-placeholder">
+        <div class="play-btn"><svg viewBox="0 0 10 10"><polygon points="2,1 9,5 2,9"/></svg></div>
+        <strong>Vídeo: Cadastro de bens de ativo imobilizado</strong>
+        <p>Vídeo local: <code>videos/cadastro-bens.mp4</code> &nbsp;|&nbsp; ou embed do Microsoft Stream.</p>
+      </div>
+
+      <div class="sub-title">Campos do cadastro</div>
+
+      <div class="fields-grid">
+        <div class="field-item">
+          <div class="field-label">Filial <span class="field-opt">opcional</span></div>
+          <div class="field-desc">Não interfere no cadastro. Pode ser feita separação, porém não impacta nas demais etapas.</div>
+        </div>
+        <div class="field-item">
+          <div class="field-label">Descrição <span class="field-req">obrigatório</span></div>
+          <div class="field-desc">Adicionar o máximo de informações úteis possível para facilitar a identificação do bem.</div>
+        </div>
+        <div class="field-item">
+          <div class="field-label">Tipo do Bem <span class="field-req">obrigatório</span></div>
+          <div class="field-desc">Classificação do bem conforme natureza do ativo.</div>
+        </div>
+        <div class="field-item">
+          <div class="field-label">Grupo do Bem <span class="field-req">obrigatório</span></div>
+          <div class="field-desc">Atentar ao vínculo cadastrado na rotina 3406. Manter coerência com a finalidade e característica do bem.</div>
+        </div>
+        <div class="field-item">
+          <div class="field-label">Embalagem <span class="field-req">obrigatório</span></div>
+          <div class="field-desc">Normalmente utilizada <strong>UN</strong> (unidade).</div>
+        </div>
+        <div class="field-item">
+          <div class="field-label">NCM <span class="field-req">obrigatório</span></div>
+          <div class="field-desc">Incluir de acordo com a nota fiscal (presente no produto da nota).</div>
+        </div>
+        <div class="field-item">
+          <div class="field-label">Indicador de Escala Relevante <span class="field-req">obrigatório</span></div>
+          <div class="field-desc">Preencher conforme legislação aplicável ao bem.</div>
+        </div>
+        <div class="field-item">
+          <div class="field-label">Origem do CST <span class="field-req">obrigatório</span></div>
+          <div class="field-desc">Adicionar a informação conforme origem da mercadoria.</div>
+        </div>
+        <div class="field-item">
+          <div class="field-label">Tributação IPI <span class="field-req">obrigatório</span></div>
+          <div class="field-desc">Em caso de ausência de informação ou desconhecimento, incluir <strong>"outras entradas"</strong>.</div>
+        </div>
+        <div class="field-item">
+          <div class="field-label">Fornecedor <span class="field-opt">opcional</span></div>
+          <div class="field-desc">Não há necessidade de vínculo. O bem pode ser usado futuramente em outras entradas. Incluir conforme rotina 202 se necessário.</div>
+        </div>
+      </div>
+
+      <div class="img-placeholder">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21,15 16,10 5,21"/></svg>
+        Substitua por: <code>imgs/cadastro-bens.png</code>
+      </div>
+
+      <div class="box box-atencao">
+        <div class="box-title">⚠️ Indicador de Escala Relevante — Referência Legal</div>
+        Os bens relacionados no Anexo XXVII serão considerados fabricados em escala industrial
+        não relevante quando produzidos por contribuinte que atender, cumulativamente:
+        ser optante pelo Simples Nacional; auferir receita bruta igual ou inferior a R$ 180.000,00
+        no exercício anterior; possuir estabelecimento único; ser credenciado pela administração
+        tributária da unidade federada de destino.
+      </div>
+
+      <div class="box box-info">
+        <div class="box-title">ℹ️ Quando marcado como Não</div>
+        Na entrada de mercadoria, o produto não possuirá o Cálculo do ST e para as saídas
+        não serão destacadas as substituições tributárias.
+      </div>
+
+      <div class="box box-dica">
+        <div class="box-title">✅ Quando marcado como Sim</div>
+        O parâmetro considera o Cálculo de ST na entrada e na saída quando o produto
+        for sujeito à substituição tributária.
+      </div>
+    </div>
+  </div>
+
+</div><!-- /main -->
+
+<!-- ── RODAPÉ ── -->
+<div class="footer">
+  <div class="footer-left">
+    <div class="footer-logo">
+      <svg viewBox="0 0 22 22" fill="none">
+        <path d="M4 11 L11 5 L18 11 L18 18 L4 18 Z" fill="#fff" opacity=".9"/>
+        <rect x="8" y="13" width="6" height="5" fill="#1b5e20"/>
+      </svg>
+    </div>
+    <div>
+      <div class="footer-name">Planning</div>
+      <div class="footer-sub">Soluções Contábeis, Tributárias e Societárias</div>
+    </div>
+  </div>
+  <div class="footer-right">
+    Base de Conhecimento Interno · Winthor Imobilizado<br>
+    Versão 1.0 · Abril de 2026 · BPO Contábil
+  </div>
+</div>
+
+<script>
+  function showTab(id, btn) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+    btn.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>
