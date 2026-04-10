@@ -1159,14 +1159,32 @@
             <div class="field-item"><div class="field-label"><span class="field-opt">opcional</span> Vlr.IPI </div><div class="field-desc">Informar valor da nota, <strong>complemtanta o valor do produto</strong>.</div></div>
             <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> CST ICMS e PIS e COFINS </div><div class="field-desc">Consultar o fiscal em <strong>dúvida de classificação.</strong>.</div></div>
             <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Tx deprec. anual </div><div class="field-desc"> <strong>Não alterar em nenhuma hipótese</strong>, percentual padronizado pelo grupo de bens.</div></div>
-                     
+          </div>
+           
           <div class="box box-atencao">
             <div class="box-title">⚠️ Atenção!!</div>
-            Incluir informação
+            Em entradas de notas fiscais de <strong>compra de veículos</strong>, verifique a 
+          <strong>Descrição da Função do Veículo</strong>. Caso o veículo seja destinado ao 
+          <strong>transporte de mercadorias</strong>, o grupo do bem muda para o grupo 
+          <strong>12 (depreciação de 25% ao ano)</strong>. Essa definição deve ser feita 
+          <strong>antes de finalizar a nota</strong> — se identificado neste momento, 
+          acesse a <strong>Rotina 3401</strong>, altere o grupo do bem de 3 para 12 e 
+          reinicie o lançamento da nota.
           </div>
+          
           <div class="box box-info">
-            <div class="box-title">ℹ️ Informações adicionais</div>
-            Incluir informação <strong>Incluir informação</strong>.
+          <div class="box-title">ℹ️ Dúvidas fiscais — acionar o time fiscal</div>
+          Questões relacionadas a <strong>CFOP</strong>, <strong>CST</strong>, <strong>DIFAL</strong>, 
+          <strong>Substituição Tributária (ST)</strong> e impostos em geral devem ser direcionadas ao 
+          <strong>time fiscal</strong> para garantir a correta aplicação e concordância com a legislação vigente.
+          </div>
+
+          <div class="box box-dica">
+          <div class="box-title">💡 Dúvidas contábeis — acionar a contabilidade</div>
+           Em caso de dúvidas sobre a <strong>conta gerencial</strong> a ser utilizada, acione a 
+          <strong>contabilidade</strong> para validação — lembrando que somente o 
+          <strong>grupo 893</strong> pode ser utilizado. A contabilidade também pode ser consultada 
+          para esclarecimentos sobre a <strong>alíquota de depreciação de veículos operacionais</strong>.
           </div>
         </div>
       </div>
