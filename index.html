@@ -1126,7 +1126,7 @@
           <div class="card-title"><span class="icon">🏷️</span>9º Passo — Entrada de nota fiscal</div>
           <div class="rotina-tag">Rotina 3402 - Entrada de imobilizado</div>
           <p>
-            Rotina responsável por concentrar os lançamentos de notas fiscais de compra de ativo imobilizado. Após criar o bem na 3401, partir para realizar o lançamento da nota fiscal.
+            Rotina responsável por concentrar os lançamentos de notas fiscais de compra de ativo imobilizado. Após realizar o cadastro do bem na Rotina 3401, partir para realizar o lançamento da nota fiscal, conforme vídeo abaixo.
           </p>
           <div class="video-wrap">
             <video autoplay loop muted playsinline style="width:100%;display:block;max-height:500px;object-fit:contain;background:#000;">
@@ -1139,28 +1139,28 @@
             <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Tipo de Operação </div><div class="field-desc">Aquisição para as compras de mercadoria. Possui opção de estorno e transferência (pouco usado).</div></div>
             <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Conta </div><div class="field-desc">Conta gerencial da rotina 570 <strong>(usar apenas grupo 893)</strong>.</div></div>
             <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Filial </div><div class="field-desc">Informar filial de lançamento de acordo com a nota.</div></div>
-            <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Espécie | Série | Modelo </div><div class="field-desc"> Utilizar dados da NF para não gerar divergência ao colocar o XML.</div></div>
-            <div class="field-item"><div class="field-label"><span class="field-opt">opcional</span> Emissão própria </div><div class="field-desc"> Usar entrada própria somente quando. <strong>fo feita aquisição de PF</strong>.</div></div>
+            <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Espécie | Série | Modelo </div><div class="field-desc"> Utilizar dados da NF para <strong>não gerar divergência</strong> ao colocar o XML.</div></div>
+            <div class="field-item"><div class="field-label"><span class="field-opt">opcional</span> Emissão própria </div><div class="field-desc"> Usar entrada própria somente quando <strong>for realizada compra de PF</strong>.</div></div>
             <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Número nota </div><div class="field-desc">Utilizar número da nota.</div></div>
             <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Data emissão | Data entrada</div><div class="field-desc">Colocar data da nota para emissão e <strong>data de entrada colocar o dia que está sendo lançado.</strong></div></div>
             <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Fornecedor </div><div class="field-desc">Vincular conforme cadastro existente rotina 202. <strong>Caso não tenha, criar!</strong>.</div></div>
             <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Chave NF-e </div><div class="field-desc">Informar chave da NF.</div></div>
-            <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Valor total da NF </div><div class="field-desc">Informar valor total da nota <strong>Não usar valor do produto!</strong>.</div></div> 
-            <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Contas a pagar </div><div class="field-desc">Gera o contas a pagar direto <strong>sem necessidade de inclusão manual da rotina 749</strong>.</div></div>
+            <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Valor total da NF </div><div class="field-desc">Informar valor total da nota. <strong>Não usar valor do produto!</strong>.</div></div> 
+            <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Contas a pagar </div><div class="field-desc">Gera o contas a pagar direto, <strong>sem necessidade de inclusão manual da rotina 749</strong>.</div></div>
             </div>
 
           <div class="sub-title">Campos do lançamento 2ª Tela</div> 
          <div class="fields-grid" style="grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));">
             <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Cód. bem </div><div class="field-desc">Bem cadastrado na rotina 3401 conforme item da nota fiscal.</div></div>
             <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> CFOP </div><div class="field-desc">Consultar o fiscal em <strong>dúvida de classificação.</strong>.</div></div>
-            <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Descrição complementar do bem | Descrição da função </div><div class="field-desc">Informar informações úteis para facilitar identificação. <strong>Evitar redundância</strong>.</div></div>
+            <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Descrição complementar do bem | Descrição da função </div><div class="field-desc">Informar informações úteis para facilitar identificação futura. <strong>Evitar redundância</strong>.</div></div>
             <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Tipo de movimentação do bem </div><div class="field-desc">IM mais usual, <strong>utilizar sempre que for uma compra normal</strong>.</div></div>
             <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Qtde </div><div class="field-desc">Quantidade descrita na NF.</div></div>
             <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Preço unitário </div><div class="field-desc">Informar o valor do <strong>produto</strong>.</div></div>
-            <div class="field-item"><div class="field-label"><span class="field-opt">opcional</span> Vlr.IPI </div><div class="field-desc">Informar valor da nota, <strong>complemtanta o valor do produto</strong>.</div></div>
+            <div class="field-item"><div class="field-label"><span class="field-opt">opcional</span> Vlr.IPI </div><div class="field-desc">Informar valor da nota, <strong>complementa o valor do produto</strong>.</div></div>
             <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> CST ICMS e PIS e COFINS </div><div class="field-desc">Consultar o fiscal em <strong>dúvida de classificação.</strong>.</div></div>
             <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Tx deprec. anual </div><div class="field-desc"> <strong>Não alterar em nenhuma hipótese</strong>, percentual padronizado pelo grupo de bens.</div></div>
-            <div class="field-item"><div class="field-label"><span class="field-opt">ATENÇÃO!! Deseja efetuar Individualização dos itens agora ?</span></div><div class="field-desc">Essa verificação é feita pela contabilidade, <strong>apertar em "não" em todos as entradas.</strong>.</div></div> 
+            <div class="field-item"><div class="field-label"><span class="field-opt">ATENÇÃO!! Deseja efetuar Individualização dos itens agora ?</span></div><div class="field-desc">Essa verificação é feita pela contabilidade, <strong>apertar em "não" em todos as entradas</strong>.</div></div> 
          </div>
            
           <div class="box box-atencao">
