@@ -1135,17 +1135,16 @@
           </div>
           <div class="sub-title">Campos do lançamento 1ª Tela</div> 
           <div class="fields-grid" style="grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));">
-            <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Tipo de Operação </div><div class="field-desc">Informar filial de lançamento de acordo com a nota.</div></div>
-            <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Conta </div><div class="field-desc">Bem cadastrado na rotina 3401 conforme item da nota fiscal.</div></div>
+            <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Tipo de Operação </div><div class="field-desc">Aquisição para as compras de mercadoria. Possui opção de estorno e transferência (pouco usado).</div></div>
+            <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Conta </div><div class="field-desc">Conta gerencial da rotina 570 <strong>(usar apenas grupo 893)</strong>.</div></div>
             <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Filial </div><div class="field-desc">Informar filial de lançamento de acordo com a nota.</div></div>
-            <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Espécie | Série | Modelo </div><div class="field-desc">Utilizar a data que está dando a entrada do bem, <strong>não recomendado utilizar a data de emissão</strong>.</div></div>
-            <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Emissão própria </div><div class="field-desc">Vincular conforme identificação interna. <strong>Caso não tenha, utilizar o geral</strong>.</div></div>
-            <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Número nota </div><div class="field-desc">Utilizar a mesma data de entrada.</div></div>
-            <div class="field-item"><div class="field-label"><span class="field-opt">opcional</span> Data emissão </div><div class="field-desc">Deixar em branco.</div></div>
-            <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Data entrada </div><div class="field-desc">Utilizar código de controle  interno <strong>Caso não tenha, criar sequencia</strong>.</div></div>
-            <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Fornecedor </div><div class="field-desc">Incluir valor da nota, embutindo os impostos e outras despesas.</div></div>
-            <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Chave NF-e </div><div class="field-desc">Informar taxa do grupo na rotina 3406 vinculado ao bem na rotina 3401 <strong>conforme demonstrado no vídeo</strong>.</div></div>
-            <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Valor total da NF </div><div class="field-desc">Manter a flag marcada paa gerar o bem nas demais rotinas da forma correta.</div></div> 
+            <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Espécie | Série | Modelo </div><div class="field-desc"> Utilizar dados da NF para não gerar divergência ao colocar o XML.</div></div>
+            <div class="field-item"><div class="field-label"><span class="field-opt">opcional</span> Emissão própria </div><div class="field-desc"> Usar entrada própria somente quando. <strong>fo feita aquisição de PF</strong>.</div></div>
+            <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Número nota </div><div class="field-desc">Utilizar número da nota.</div></div>
+            <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Data emissão | Data entrada</div><div class="field-desc">Colocar data da nota para emissão e <strong>data de entrada colocar o dia que está sendo lançado.</strong></div></div>
+            <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Fornecedor </div><div class="field-desc">Vincular conforme cadastro existente rotina 202. <strong>Caso não tenha, criar!</strong>.</div></div>
+            <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Chave NF-e </div><div class="field-desc">Informar chave da NF.</div></div>
+            <div class="field-item"><div class="field-label"><span class="field-req">obrigatório</span> Valor total da NF </div><div class="field-desc">Informar valor total da nota <strong>Não usar valor do produto!</strong>.</div></div> 
           </div>
 
           <div class="sub-title">Campos do lançamento 2ª Tela</div> 
